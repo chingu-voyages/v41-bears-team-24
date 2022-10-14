@@ -1,10 +1,15 @@
 {
     "compilerOptions": {
+      "incremental": true,
+
+      "target": "ES6",
+      "module": "commonjs",
       "sourceMap": true,
       "outDir": "dist",
       "strict": true,
-      "lib": ["esnext"],
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true
     }
   }
   
