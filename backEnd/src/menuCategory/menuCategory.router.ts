@@ -24,4 +24,4 @@ router
     .get(controller.listItems)
     .all(methodNotAllowed);
 
-module.exports = router;
+export default router;

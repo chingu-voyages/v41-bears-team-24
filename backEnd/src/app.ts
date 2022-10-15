@@ -2,8 +2,8 @@ import express from "express";
 import errorHandler from "./errors/errorHandler";
 import notFound from "./errors/notFound";
 
-const menuCategoryRouter = require("./menuCategory/menuCategory.router");
-const menuItemRouter = require("./menuItem/menuItem.router");
+import menuCategoryRouter from "./menuCategory/menuCategory.router";
+import menuItemRouter from "./menuItem/menuItem.router";
 
 const app = express();
 

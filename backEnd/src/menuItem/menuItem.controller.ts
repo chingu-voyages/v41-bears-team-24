@@ -105,7 +105,7 @@ async function remove(req: Request, res: Response) {
     res.status(200).json({ data: menuItem });
 }
 
-module.exports = {
+export default {
     create: [asyncHandler(create)],
     list: asyncHandler(list),
     read: [asyncHandler(menuItemExists), asyncHandler(read)],

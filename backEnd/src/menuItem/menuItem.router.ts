@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import methodNotAllowed from "../errors/methodNotAllowed";
 
-const controller = require("./menuItem.controller");
+import controller from "./menuItem.controller";
 
 const router: Router = require("express").Router();
 
@@ -19,4 +19,4 @@ router
     .delete(controller.delete)
     .all(methodNotAllowed);
 
-module.exports = router;
+export default router;
