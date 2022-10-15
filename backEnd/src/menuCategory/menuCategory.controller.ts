@@ -7,8 +7,18 @@ async function list(req: Request, res: Response) {
     res.status(200).json({ data });
 }
 
+async function listItems(req: Request, res: Response) {
+    const { categoryId } = req.params;
+    const data = await prisma.menuItem.findMany({
+        where: {
+            categoryId: Number(categoryId)
+        }
+    });
+    res.status(200).json({ data });
+}
+
 async function categoryExists(req: Request, res: Response, next: NextFunction) {
-  const { categoryId } = res.locals.categoryId ? res.locals : req.params;
+    const { categoryId } = res.locals.categoryId ? res.locals : req.params;
     const category = await prisma.menuCategory.findUnique({
         where: {
             id: Number(categoryId)
@@ -77,9 +87,10 @@ async function create(req: Request, res: Response) {
     res.status(201).json({ data: newCategory });
 }
 
-module.exports = {
+export default {
     create: [asyncHandler(isValidCategoryName), asyncHandler(create)],
     list: asyncHandler(list),
+    listItems: asyncHandler(listItems),
     read: [asyncHandler(categoryExists), asyncHandler(read)],
     update: [asyncHandler(categoryExists), asyncHandler(isValidCategoryName), asyncHandler(update)]
 };

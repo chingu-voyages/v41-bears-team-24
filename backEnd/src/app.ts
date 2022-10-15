@@ -2,21 +2,28 @@ import express from "express";
 import errorHandler from "./errors/errorHandler";
 import notFound from "./errors/notFound";
 
-const menuCategoryRouter = require("./menuCategories/menuCategory.router");
+const menuCategoryRouter = require("./menuCategory/menuCategory.router");
+const menuItemRouter = require("./menuItem/menuItem.router");
 
 const app = express();
 
 app.use(express.json());
 
+//TODO: Validate new and updated Menu Categories
+
+// Menu category: /API/menucategory
 app.use("/api/MenuCategory", menuCategoryRouter);
+
+//TODO: Validate new and updated Menu Items
+
+// Menu item: /API/menuitem
+app.use("/api/MenuItem", menuItemRouter);
 
 app.use("/api/error", (req, res, next) => {
     next({ status: 400, message: "This is an error." });
 });
 
-// Menu category: /API/menucategory
-// Food item: /API/menucategory/fooditem
-// Orders: /API/orders
+// Orders: /API/order
 
 // -Sign in: /API/signin
 // Signup: /API/signup
