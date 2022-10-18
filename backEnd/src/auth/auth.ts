@@ -3,10 +3,10 @@ import bcrypt from 'bcrypt'
 import cookie from 'cookie'
 import prisma from '../client'
 
-const createNewToken = (user: any) => {
-    jwt.sign(
+const createNewToken = (user: any) : string => {
+    return jwt.sign(
             {id: user.id, role: user.role, username: user.username}, 
-            process.env.JWT_SECRET, 
+            process.env.JWT_SECRET as jwt.Secret, 
             { expiresIn: process.env.JWT_EXPIRATION })
 }
 
@@ -68,6 +68,10 @@ export const signin = async (req: any, res: any) => {
     } catch (error) {
         console.error(error)
         res.status(404).json({ message: 'Account does not exist'})
+    }
+
+    if(user == null){
+        return res.status(404).json({ message: 'Account does not exist'})
     }
 
     if (bcrypt.compareSync(password, user.password)) {
