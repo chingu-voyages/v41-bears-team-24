@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import app from "./app";
 
 const { PORT = 5000 } = process.env;
