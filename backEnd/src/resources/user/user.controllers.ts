@@ -1,4 +1,4 @@
-import prisma from "../client"
+import prisma from "../../client"
 
 export const updateUser = async (req: any, res: any) => {
     const { username, firstName, lastName, role } = req.body.username

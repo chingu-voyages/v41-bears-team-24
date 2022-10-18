@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { updateUser } from './user.controllers.ts'
+import { updateUser } from './user.controllers'
 
 const router = Router()
 router.patch('/', updateUser)

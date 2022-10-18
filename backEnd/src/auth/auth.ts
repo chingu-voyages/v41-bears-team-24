@@ -60,7 +60,7 @@ export const signin = async (req: any, res: any) => {
     let user
 
     try {
-        user = await prisma.findUnique({
+        user = await prisma.user.findUnique({
             where: {
                 username: username
             }
