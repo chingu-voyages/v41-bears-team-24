@@ -1,9 +1,14 @@
 import express from "express";
 import errorHandler from "./errors/errorHandler";
+import { signup, signin } from './auth/auth'
 
 const app = express();
 
 app.use(express.json());
+
+
+app.post('/signup', signup)
+app.post('/signin', signin)
 
 app.use("/api/MenuCategory", (req, res) => {
     res.status(200).json({
