@@ -2,7 +2,7 @@
 const Admin = () => {
   return (
     <>
-      <h3>Admin</h3>
+      <h3 className="text-xl">Admin</h3>
     </>
   )
 }

@@ -10,6 +10,7 @@ import Admin from "./components/Admin/Admin";
 
 function App() {
   const [activeOrders, setActiveOrders] = useState<order[]>([]);
+  const [login, setLogin] = useState<string>('');
 
   const addNewOrder = (order: order) => {
     console.log(activeOrders)
@@ -18,9 +19,9 @@ function App() {
 
   return (
     <div>
-      <Navbar/> {/* remove if on landing page */}
+      <Navbar login={login}/> {/* remove if on landing page */}
       <Routes>
-        <Route path="/" element={<Landing/>}/>
+        <Route path="/" element={<Landing setLogin={setLogin}/>}/>
         <Route path="/menu" element={<Home addNewOrder={addNewOrder}/>}/>
         <Route path="/kitchen" element={<Kitchen activeOrders={activeOrders}/>}/>
         <Route path="/admin" element={<Admin/>}/>
@@ -30,9 +31,3 @@ function App() {
 }
 
 export default App;
-// /admin/menu
-// /admin/kitchen
-// /admin/menu/:id 
-// /admin/kitchen/:id
-// /admin/users
-// /admin/users/:id
