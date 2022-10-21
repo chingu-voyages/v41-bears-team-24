@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import NavTab from './NavTab';
+import CategoryTab from './CategoryTab';
 import MenuItemCard from './MenuItemCard';
 
 const categories = ['Appetizers', 'Entrees', 'Sides', 'Beverages', 'Desserts'];
@@ -22,13 +22,13 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
 	}
  
   return (
-    <div className="inline-block h-full w-9/12">
-      <h3>Menu</h3>
+    <div className="inline-block h-full w-12/12">
+      <h3 className="text-xl">Menu</h3>
       <div>
-		    <ul className="flex">
-          <NavTab category={"All"} click={navTabClick} value={-1}/>
+		    <ul className="flex flex-wrap">
+          <CategoryTab category={"All"} click={navTabClick} activeTab={activeTab} value={-1}/>
           {categories.map((name, index) => {
-            return <NavTab category={name} click={navTabClick} value={index}/>
+            return <CategoryTab category={name} click={navTabClick} activeTab={activeTab} value={index}/>
           })}
         </ul>
         <div className="flex flex-wrap">

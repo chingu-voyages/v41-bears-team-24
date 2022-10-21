@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState } from "react"
 import Menu from "../Menu/Menu";
 import Cart from "../Cart/Cart";
-import { orderItem } from "../interfaces"
 import { order } from "../interfaces"
 
 interface HomeProps {addNewOrder: Function};
@@ -28,7 +27,7 @@ const Home = ({ addNewOrder }: HomeProps) => {
   return (
   <div>
     <div className="flex justify-around">
-      <div className="w-9/12">
+      <div className="w-10/12">
         <Menu addItemToOrder={addItemToOrder}/>
       </div>
       <div className="w-2/12">
