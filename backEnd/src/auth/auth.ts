@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
-import prisma from '../client'
+import prisma from '../prismaClient'
 
 const createNewToken = (user: any) : string => {
     return jwt.sign(

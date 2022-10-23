@@ -1,5 +1,6 @@
 import express from "express";
 import errorHandler from "./errors/errorHandler";
+import path from "path";
 
 import notFound from "./errors/notFound";
 
@@ -7,9 +8,12 @@ import menuCategoryRouter from "./menuCategory/menuCategory.router";
 import menuItemRouter from "./menuItem/menuItem.router";
 import { signup, signin } from './auth/auth'
 
+import cors from "cors";
+
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 //TODO: Validate new and updated Menu Categories
@@ -21,6 +25,14 @@ app.use("/api/MenuCategory", menuCategoryRouter);
 
 // Menu item: /API/menuitem
 app.use("/api/MenuItem", menuItemRouter);
+
+//Serve React App
+// app.get("/", (req, res)=>{
+//     res.sendFile(path.join(__dirname, "..", "..", "frontEnd", "order_up", "public", "index.html"))
+// });
+app.use(express.static(path.join(__dirname, "..", "..", "frontEnd", "order_up", "build")));
+
+console.log(__dirname);
 
 app.post('/signup', signup)
 app.post('/signin', signin)
