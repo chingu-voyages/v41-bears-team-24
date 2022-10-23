@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import asyncHandler from '../errors/asyncHandler';
-import prisma from '../client';
+import prisma from '../prismaClient';
 
 async function list(req: Request, res: Response) {
     const data = await prisma.menuItem.findMany();
