@@ -1,9 +1,9 @@
 interface MenuItemCardProps {name: String, price: Number, click: Function};
 
-const formatPrice = (price: Number): String => {
-    let priceString = '';
-    return priceString;
-}
+// const formatPrice = (price: Number): String => {
+//     let priceString = '';
+//     return priceString;
+// }
 const MenuItemCard = ({name, price, click}: MenuItemCardProps) => {
     return (
         <div className="relative w-56 h-64 m-2 bg-gray-100 pb-1 border-solid border-2 border-gray-700 rounded-3xl">
