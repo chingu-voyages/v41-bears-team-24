@@ -27,12 +27,7 @@ app.use("/api/MenuCategory", menuCategoryRouter);
 app.use("/api/MenuItem", menuItemRouter);
 
 //Serve React App
-// app.get("/", (req, res)=>{
-//     res.sendFile(path.join(__dirname, "..", "..", "frontEnd", "order_up", "public", "index.html"))
-// });
 app.use(express.static(path.join(__dirname, "..", "..", "frontEnd", "order_up", "build")));
-
-console.log(__dirname);
 
 app.post('/signup', signup)
 app.post('/signin', signin)
