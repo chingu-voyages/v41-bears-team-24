@@ -5,18 +5,8 @@ import { validEmployee } from '../../auth/auth'
 import jwt from 'jsonwebtoken'
 
 async function list(req: Request, res: Response) {
-    console.log('test')
-    // test
-    const decoded = jwt.decode(req.cookies.ORDER_UP_TOKEN, {complete: true})
-    console.log('decoded payload :', decoded?.payload)
-    const payload = decoded?.payload
-
-    if (validEmployee(req.cookies.ORDER_UP_TOKEN)) {
-        const data = await prisma.menuItem.findMany();
-        res.status(200).json({ payload });
-    } else {
-        res.status(401).json({ error: 'Employee is not authorized to perform this action' })
-    }
+    const data = await prisma.menuItem.findMany();
+    return res.status(200).json({ data: data });
 }
 
 async function menuItemExists(req: Request, res: Response, next: NextFunction) {
@@ -119,7 +109,7 @@ async function remove(req: Request, res: Response) {
 
 export default {
     create: [asyncHandler(create)],
-    list: asyncHandler(list),
+    list: [validEmployee, asyncHandler(list)],
     read: [asyncHandler(menuItemExists), asyncHandler(read)],
     update: [asyncHandler(menuItemExists), asyncHandler(update)],
     delete: [asyncHandler(menuItemExists), asyncHandler(remove)]

@@ -2,6 +2,7 @@ import jwt, { Jwt } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
 import prisma from '../prismaClient'
+import { NextFunction, Request, Response } from 'express'
 
 const createNewToken = (user: any) : string => {
     return jwt.sign(
@@ -10,17 +11,38 @@ const createNewToken = (user: any) : string => {
             { expiresIn: process.env.JWT_EXPIRATION })
 }
 
-export const validEmployee = (token: string) => {
-    const decoded = jwt.decode(token, {complete: true})
-    // ! tells TypeScript the property will not be null
 
-    console.log('decoded :', decoded?.payload)
+export const validEmployee = async (req: Request, res: Response, next: NextFunction) => {
+    const decoded = jwt.decode(req.cookies.ORDER_UP_TOKEN, {complete: true})
+    if (!decoded) {
+        return next({status: 400, message: "You are not logged in"});
+    }
 
-    if (decoded!.payload.includes('MANAGER') || decoded!.payload.includes('ADMIN')) {
-        return true
+    const decodedParsed = decoded?.payload as any
+
+    console.log('role type: ', typeof decodedParsed.role)
+    console.log('role: ', decodedParsed.role)
+
+    let user 
+
+    try {
+        user = await prisma.user.findUnique({
+            where: {
+                id: decodedParsed.id
+            }
+        })
+    } catch (error) {
+        return next({status: 500, message: error})
+    }
+
+    if (!user) return next({status: 404, message: 'User not found'})
+
+    if (user.role === 'MANAGER' || user.role === 'ADMIN') {
+        res.locals.user = user
+        next()
     } else {
-        return false
-    } 
+        return next({status: 401, message: 'Employee is not authorized to perform this action'})
+    }
 }
 
 export const signup = async (req: any, res: any) => {
@@ -28,7 +50,7 @@ export const signup = async (req: any, res: any) => {
 
     const { username, password, firstName, lastName, role } = req.body
 
-    if (!username || !password) res.status(400).send({ message: 'usernamne and password are required' })
+    // if (!username || !password) res.status(400).send({ message: 'usernamne and password are required' })
 
     let user
 
@@ -61,20 +83,22 @@ export const signup = async (req: any, res: any) => {
         })
     )
 
-    res.json(user)    
+    return res.json(user)    
 }
 
 export const signin = async (req: any, res: any) => {
-    const { id, username, password } = req.body
+    const { username, password } = req.body
 
-    if (!username || !password) res.status(400).send({ message: 'username and password are required' })
+    if (!username || !password) return res.status(400).send({ message: 'username and password are required' })
+
+    console.log('username in signin route:', username)
 
     let user
 
     try {
         user = await prisma.user.findUnique({
             where: {
-                id: id
+                username: username
             }
         })
     } catch (error) {
