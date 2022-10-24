@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { Jwt } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import cookie from 'cookie'
 import prisma from '../prismaClient'
@@ -10,6 +10,18 @@ const createNewToken = (user: any) : string => {
             { expiresIn: process.env.JWT_EXPIRATION })
 }
 
+export const validEmployee = (token: string) => {
+    const decoded = jwt.decode(token, {complete: true})
+    // ! tells TypeScript the property will not be null
+
+    console.log('decoded :', decoded?.payload)
+
+    if (decoded!.payload.includes('MANAGER') || decoded!.payload.includes('ADMIN')) {
+        return true
+    } else {
+        return false
+    } 
+}
 
 export const signup = async (req: any, res: any) => {
     const salt = bcrypt.genSaltSync()
@@ -53,16 +65,16 @@ export const signup = async (req: any, res: any) => {
 }
 
 export const signin = async (req: any, res: any) => {
-    const { username, password } = req.body
+    const { id, username, password } = req.body
 
-    if (!username || !password) res.status(400).send({ message: 'usernamne and password are required' })
+    if (!username || !password) res.status(400).send({ message: 'username and password are required' })
 
     let user
 
     try {
         user = await prisma.user.findUnique({
             where: {
-                username: username
+                id: id
             }
         })
     } catch (error) {
@@ -95,6 +107,5 @@ export const signin = async (req: any, res: any) => {
         res.status(401)
         res.json({ error: 'Email or Password is incorrect' })
     }
-
 
 }

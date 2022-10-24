@@ -1,10 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import asyncHandler from '../errors/asyncHandler';
-import prisma from '../prismaClient';
+import asyncHandler from '../../errors/asyncHandler';
+import prisma from '../../prismaClient';
+import { validEmployee } from '../../auth/auth'
 
 async function list(req: Request, res: Response) {
-    const data = await prisma.menuItem.findMany();
-    res.status(200).json({ data });
+    // test
+    if (validEmployee(req.cookies.ORDER_UP_TOKEN)) {
+        const data = await prisma.menuItem.findMany();
+        res.status(200).json({ data });
+    } else {
+        res.status(401).json({ error: 'Employee is not authorized to perform this action' })
+    }
 }
 
 async function menuItemExists(req: Request, res: Response, next: NextFunction) {

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import methodNotAllowed from "../errors/methodNotAllowed";
+import methodNotAllowed from "../../errors/methodNotAllowed";
 
 import controller from "./menuItem.controller";
 

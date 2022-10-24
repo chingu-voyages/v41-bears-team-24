@@ -4,8 +4,8 @@ import path from "path";
 
 import notFound from "./errors/notFound";
 
-import menuCategoryRouter from "./menuCategory/menuCategory.router";
-import menuItemRouter from "./menuItem/menuItem.router";
+import menuCategoryRouter from "./resources/menuCategory/menuCategory.router";
+import menuItemRouter from "./resources/menuItem/menuItem.router";
 import { signup, signin } from './auth/auth'
 
 import cors from "cors";
