@@ -2,12 +2,18 @@ import { Request, Response, NextFunction } from 'express';
 import asyncHandler from '../../errors/asyncHandler';
 import prisma from '../../prismaClient';
 import { validEmployee } from '../../auth/auth'
+import jwt from 'jsonwebtoken'
 
 async function list(req: Request, res: Response) {
+    console.log('test')
     // test
+    const decoded = jwt.decode(req.cookies.ORDER_UP_TOKEN, {complete: true})
+    console.log('decoded payload :', decoded?.payload)
+    const payload = decoded?.payload
+
     if (validEmployee(req.cookies.ORDER_UP_TOKEN)) {
         const data = await prisma.menuItem.findMany();
-        res.status(200).json({ data });
+        res.status(200).json({ payload });
     } else {
         res.status(401).json({ error: 'Employee is not authorized to perform this action' })
     }
