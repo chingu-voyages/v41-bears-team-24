@@ -44,7 +44,7 @@ export const signup = async (req: any, res: any) => {
         })
     } catch (error) {
         console.error(error)
-        return res.status(400).end()
+        return res.status(400).json({ error: error}).end()
     }
 
     const token = createNewToken(user)
