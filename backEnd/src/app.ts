@@ -33,12 +33,8 @@ app.use("/api/menucategory", menuCategoryRouter);
 app.use("/api/menuitem", menuItemRouter);
 
 //Serve React App
-// app.get("/", (req, res)=>{
-//     res.sendFile(path.join(__dirname, "..", "..", "frontEnd", "order_up", "public", "index.html"))
-// });
 app.use(express.static(path.join(__dirname, "..", "..", "frontEnd", "order_up", "build")));
 
-console.log(__dirname);
 
 app.use("/api/error", (req, res, next) => {
     next({ status: 400, message: "This is an error." });
