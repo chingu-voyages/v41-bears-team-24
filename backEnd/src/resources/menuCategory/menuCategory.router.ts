@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import methodNotAllowed from "../errors/methodNotAllowed";
+import methodNotAllowed from "../../errors/methodNotAllowed";
 
 import controller from "./menuCategory.controller";
 
@@ -13,14 +13,14 @@ router
     .all(methodNotAllowed);
 
 router
-    .route("/:categoryId")
+    .route("/:categoryid")
     .get(controller.read)
     .put(controller.update)
     // Did not implement a DELETE route as it is potentially destructive (it would delete all menuItems linked to that category)
     .all(methodNotAllowed);
 
 router
-    .route("/:categoryId/items")
+    .route("/:categoryid/items")
     .get(controller.listItems)
     .all(methodNotAllowed);
 

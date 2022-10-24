@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import methodNotAllowed from "../errors/methodNotAllowed";
+import methodNotAllowed from "../../errors/methodNotAllowed";
 
 import controller from "./menuItem.controller";
 
@@ -13,7 +13,7 @@ router
     .all(methodNotAllowed);
 
 router
-    .route("/:menuItemId")
+    .route("/:menuitemid")
     .get(controller.read)
     .put(controller.update)
     .delete(controller.delete)

@@ -1,10 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
-import asyncHandler from '../errors/asyncHandler';
-import prisma from '../prismaClient';
+import asyncHandler from '../../errors/asyncHandler';
+import prisma from '../../prismaClient';
+import { validEmployee } from '../../auth/auth'
+import jwt from 'jsonwebtoken'
 
 async function list(req: Request, res: Response) {
     const data = await prisma.menuItem.findMany();
-    res.status(200).json({ data });
+    return res.status(200).json({ data: data });
 }
 
 async function menuItemExists(req: Request, res: Response, next: NextFunction) {
@@ -107,7 +109,7 @@ async function remove(req: Request, res: Response) {
 
 export default {
     create: [asyncHandler(create)],
-    list: asyncHandler(list),
+    list: [validEmployee, asyncHandler(list)],
     read: [asyncHandler(menuItemExists), asyncHandler(read)],
     update: [asyncHandler(menuItemExists), asyncHandler(update)],
     delete: [asyncHandler(menuItemExists), asyncHandler(remove)]
