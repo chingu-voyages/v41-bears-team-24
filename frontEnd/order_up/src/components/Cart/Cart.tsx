@@ -13,10 +13,17 @@ const Cart = ({order, addNewOrder, resetOrder}: CartProps) => {
     //route to kitchen
     navigate('/kitchen');
   }
+
+  const cancelOrder = () => {
+    resetOrder();
+  }
   return (
     <div className="relative">
       <p>Order Cart</p>
-      <p>Order#{order.id}<span className="absolute top-1 right-1 border-solid border-2 border-indigo-700 rounded">Cancel</span></p>
+      <p>Order#{order.id}
+        <div onClick={cancelOrder} className="absolute top-1 right-1 bg-red-400 text-white border-solid border-2 border-red-700 rounded hover:text-gray-300"
+              >Cancel</div>
+      </p>
       { order.items.map((item) => <p><span>{item.name} </span><span> {'$' + String(item.price)}</span></p>) }
       <p>Total: <span> ${order.items.reduce((acc, item) => acc + item.price , 0)}</span></p>
       <div  onClick={confirmOrder}
