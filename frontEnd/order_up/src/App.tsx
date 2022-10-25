@@ -1,31 +1,24 @@
-import { Route, Routes } from "react-router-dom";
-import { useState } from "react";
-import { order } from "./components/interfaces";
-import Landing from "./components/Landing/Landing";
-import Navbar from "./components/Navbar/Navbar";
-import Home from "./components/Home/Home";
-import Kitchen from "./components/Kitchen/Kitchen";
-import Admin from "./components/Admin/Admin";
-
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
 function App() {
-  const [activeOrders, setActiveOrders] = useState<order[]>([]);
-  const [login, setLogin] = useState<string>('');
-
-  const addNewOrder = (order: order) => {
-    console.log(activeOrders)
-    setActiveOrders(activeOrders.concat(order));
-  }
-
   return (
-    <div>
-      <Navbar login={login}/> {/* remove if on landing page */}
-      <Routes>
-        <Route path="/" element={<Landing setLogin={setLogin}/>}/>
-        <Route path="/menu" element={<Home addNewOrder={addNewOrder}/>}/>
-        <Route path="/kitchen" element={<Kitchen activeOrders={activeOrders}/>}/>
-        <Route path="/admin" element={<Admin/>}/>
-      </Routes>
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
     </div>
   );
 }
