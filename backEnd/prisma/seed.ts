@@ -1,7 +1,9 @@
 import prisma from "../src/prismaClient";
 import { defaultUsers, menuCategories, menuItems } from './seedData'
+import bcrypt from 'bcrypt'
 
 async function main() {
+    const salt = bcrypt.genSaltSync()
     // users
     await Promise.all(defaultUsers.map( async (user) => {
         return prisma.user.create({
@@ -9,7 +11,7 @@ async function main() {
                 username: user.username,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                password: user.password,
+                password: bcrypt.hashSync(user.password, salt),
                 role: 'EMPLOYEE'
             }
         })

@@ -13,6 +13,7 @@ datasource db {
 model MenuCategory {
   id   Int    @id @default(autoincrement())
   name String @unique
+
   menuItems MenuItem[]
 }
 
@@ -24,6 +25,7 @@ model MenuItem {
   description  String
   calorieCount Int
   imageUrl     String
+
   categoryId Int
   category   MenuCategory @relation(fields: [categoryId], references: [id])
   OrderItem  OrderItem[]
@@ -33,6 +35,7 @@ model OrderItem {
   id            Int    @id @default(autoincrement())
   quantity      Int
   modifications String
+
   menuItemId Int
   menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
   orderId Int
@@ -49,6 +52,7 @@ model Order {
   customerName String
   status       OrderStatus
   userId    Int
+
   user      User        @relation(fields: [userId], references: [id])
   createdAt DateTime    @default(now())
   OrderItem OrderItem[]
@@ -67,6 +71,7 @@ model User {
   lastName  String
   password  String
   role      Role
+  
   createdAt DateTime @default(now())
   Order     Order[]
 }
