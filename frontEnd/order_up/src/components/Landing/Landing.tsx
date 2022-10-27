@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import LoginButton from "./LoginButton";
+import { useEffect } from 'react';
+import LoginButton from './LoginButton';
 
 interface LandingProps {setLogin: Function};
 
@@ -7,9 +8,28 @@ const Landing = ({ setLogin }: LandingProps) => {
   const navigate = useNavigate();
 
   const click = (userRole: string) => {
+    tryLogin();
+
     setLogin(userRole);
     navigate('/menu');
   }
+
+  const tryLogin = () => {
+    fetch('https://v41-bears-team-24-production.up.railway.app/signin', 
+      {method: "post",
+        body: JSON.stringify({
+        username: "employee1",
+        password: "password",
+    }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }})
+    .then((res) => console.log(res))
+  }
+
+  useEffect(() => {
+    //tryLogin();
+  }, [])
 
   return (
     <>
