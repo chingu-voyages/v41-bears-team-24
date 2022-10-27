@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { nextTick } from 'process';
-import { arrayBuffer } from 'stream/consumers';
 import asyncHandler from '../../errors/asyncHandler';
 import prisma from '../../prismaClient';
 import { OrderStatus } from "@prisma/client";
+import { isValidStatus, isValidOrderItem, OrderItem } from './order.types';
 
 async function orderExists(req: Request, res: Response, next: NextFunction) {
     const { id } = res.locals.id ? res.locals : req.params;
@@ -52,7 +51,7 @@ async function create(req: Request, res: Response, next: NextFunction) {
     }
 
     for (const item of orderItems) {
-        if (!isOrderItem(item)) {
+        if (!isValidOrderItem(item)) {
             return next({
                 status: 400,
                 message: "Invalid order item found in list of order items"
@@ -80,37 +79,48 @@ async function create(req: Request, res: Response, next: NextFunction) {
             OrderItem: { create: orderItems }
         }
     });
-    res.status(201).json({data:order});
+    res.status(201).json({ data: order });
 }
 
-function isOrderItem(toBeDetermined: any) {
-    if ((toBeDetermined as OrderItem).menuItemId) {
-        return true
+async function update(req: Request, res: Response, next: NextFunction) {
+    const {
+        customerName,
+        userId,
+        status
+    } = req.body;
+
+    if (status && !isValidStatus(status)) {
+        return next({
+            status: 400,
+            message: `Invalid status ${status}`
+        });
     }
-    return false
+
+    const { id } = res.locals.order;
+
+    const order = await prisma.order.update({
+        where: { id },
+        data: {
+            customerName: customerName ? String(customerName) : undefined,
+            status: status,
+            userId: userId ? Number(userId) : undefined,
+        }
+    });
+
+    res.status(200).json(order);
 }
 
-interface OrderItem {
-    quantity: Number,
-    modification: string | null | undefined,
-    menuItemId: Number
+async function remove(req: Request, res: Response) {
+    const order = await prisma.order.delete({
+        where: { id: res.locals.order.id }
+    });
+    res.status(200).json({ data: order });
 }
-
-// model Order {
-//     id           Int         @id @default(autoincrement())
-//     customerName String
-//     status       OrderStatus
-
-//     userId    Int
-//     user      User        @relation(fields: [userId], references: [id])
-//     createdAt DateTime    @default(now())
-//     OrderItem OrderItem[]
-//   }
 
 export default {
     create: [asyncHandler(create)],
     list: [asyncHandler(list)],
     read: [asyncHandler(orderExists), asyncHandler(read)],
-    // update: [asyncHandler(menuItemExists), asyncHandler(update)],
-    // delete: [asyncHandler(menuItemExists), asyncHandler(remove)]
+    update: [asyncHandler(orderExists), asyncHandler(update)],
+    delete: [asyncHandler(orderExists), asyncHandler(remove)]
 };
