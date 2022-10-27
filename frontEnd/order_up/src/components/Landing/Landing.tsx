@@ -15,7 +15,7 @@ const Landing = ({ setLogin }: LandingProps) => {
   }
 
   const tryLogin = () => {
-    fetch('https://v41-bears-team-24-production.up.railway.app/signin', 
+    fetch('/signin', 
       {method: "post",
         body: JSON.stringify({
         username: "employee1",
