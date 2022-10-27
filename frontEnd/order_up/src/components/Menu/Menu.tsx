@@ -60,8 +60,8 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
 {/* menu categories */}
 		    <ul className="flex flex-wrap">
           <CategoryTab category={"All"} click={navTabClick} activeTab={activeTab} value={-1}/>
-          {categories.map((name, idx) => { //(cat)  category={cat.name} value={cat.id}
-            return <CategoryTab category={name} click={navTabClick} activeTab={activeTab} value={idx}/>
+          {categories.map((name, index) => {  //(cat)  category={cat.name} value={cat.id}
+            return <CategoryTab key={name + index} category={name} click={navTabClick} activeTab={activeTab} value={index}/>
           })}
         </ul>
 {/* search bar */}
@@ -70,8 +70,8 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
 {/* menu cards */}
         <div className="flex flex-wrap">
           {menuItems.filter((item) => { return (item.category === activeTab || activeTab === -1) && strIncludes(item.name, searchQuery)})
-            .map((item) => {
-              return <MenuItemCard name={item.name} price={item.price} click={addItemToOrder}/>
+            .map((item, index) => {
+              return <MenuItemCard key={item.name + index} name={item.name} price={item.price} click={addItemToOrder}/>
             })}
         </div>
       </div>
