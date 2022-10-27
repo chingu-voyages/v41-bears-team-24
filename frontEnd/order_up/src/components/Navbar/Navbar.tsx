@@ -1,9 +1,10 @@
 import { useMatch, useResolvedPath } from 'react-router-dom';
+import { User } from "../interfaces";
 import NavLink from "./NavLink"
 
-interface NavBarProps {login: string};
+interface NavBarProps {loggedIn: User};
 
-const Navbar = ({ login }: NavBarProps) => {
+const Navbar = ({ loggedIn }: NavBarProps) => {
   const resolvedPath = useResolvedPath("/");
   const onLandingPage = useMatch({path: resolvedPath.pathname, end: true});
   return (
@@ -15,10 +16,10 @@ const Navbar = ({ login }: NavBarProps) => {
         <ul className="flex flex-wrap">
           <NavLink label="Menu" to="/Menu"/>
           <NavLink label="Kitchen" to="/Kitchen"/>
-          {login === 'admin' && <NavLink label="Admin" to="/Admin"/>}
+          {loggedIn.role === 'ADMINISTRATOR' && <NavLink label="Admin" to="/Admin"/>}
           <NavLink label="Logout" to="/"/>
         </ul>
-        <div className="text-gray-500 text-lg mx-4">Logged in as {login}</div>
+        <div className="text-gray-500 text-lg mx-4">{loggedIn.firstName} {loggedIn.lastName} logged in as {loggedIn.role.toLowerCase()}</div>
       </header>
   )
 }
