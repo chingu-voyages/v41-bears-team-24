@@ -16,7 +16,7 @@ const Navbar = ({ loggedIn }: NavBarProps) => {
         <ul className="flex flex-wrap">
           <NavLink label="Menu" to="/Menu"/>
           <NavLink label="Kitchen" to="/Kitchen"/>
-          {loggedIn.role === 'ADMINISTRATOR' && <NavLink label="Admin" to="/Admin"/>}
+          {loggedIn.role === 'ADMIN' && <NavLink label="Admin" to="/Admin"/>}
           <NavLink label="Logout" to="/"/>
         </ul>
         <div className="text-gray-500 text-lg mx-4">{loggedIn.firstName} {loggedIn.lastName} logged in as {loggedIn.role.toLowerCase()}</div>
