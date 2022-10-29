@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import CategoryForms from './CategoryForm';
+import CategoryForm from './CategoryForm';
 import CategoryTab from './CategoryTab';
 
-interface CategoryChangesProps {showModal: string, setShowModal: Function, closeModal: Function};
+interface CategoryChangesProps {menuCategories : any[], setMenuCategories: Function, showModal: string, setShowModal: Function, closeModal: Function};
 
 const categories = ['Appetizers', 'Entrees', 'Sides', 'Beverages', 'Desserts'];
 
-const CategoryChanges = ({ showModal, setShowModal, closeModal}: CategoryChangesProps) => {
+const CategoryChanges = ({ showModal, setShowModal, closeModal, menuCategories, setMenuCategories}: CategoryChangesProps) => {
   const [categoryFormData, setCategoryFormData] = useState({id: -1, categoryName: ""});
 
   const categoryTabClick = (label: string, id: number): void => {
@@ -18,11 +18,11 @@ const CategoryChanges = ({ showModal, setShowModal, closeModal}: CategoryChanges
       <>
         <p className="text-2xl">Edit a menu category:</p>
         {showModal === 'category'  ?
-          <CategoryForms data={categoryFormData} closeModal={closeModal} />
+          <CategoryForm data={categoryFormData} closeModal={closeModal} />
         :
           <ul className="flex flex-wrap">
-            {categories.map((name, index) => {
-              return <CategoryTab key={name + index} category={name} click={categoryTabClick} id={index}/>
+            {menuCategories.map((cat, index) => {
+              return <CategoryTab key={cat.name + index} category={cat.name} click={categoryTabClick} id={cat.id}/>
             })}
             <CategoryTab category={"Add New"} click={categoryTabClick} id={-1}/>
           </ul>

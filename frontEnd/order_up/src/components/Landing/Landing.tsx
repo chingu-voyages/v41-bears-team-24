@@ -1,11 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { User } from "../interfaces";
 import LoginButton from './LoginButton';
 
-interface LandingProps {setLoggedIn: Function};
+interface LandingProps {setLoggedIn: Function, setMenuCategories: Function, setMenuItems: Function};
 
-const Landing = ({ setLoggedIn }: LandingProps) => {
+const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps) => {
   const navigate = useNavigate();
 
   const click = async (username: string) => {
@@ -14,7 +13,7 @@ const Landing = ({ setLoggedIn }: LandingProps) => {
   }
 
   const tryLogin = async (username: string) => {
-    const res = await fetch('/signin', 
+    const res = await fetch('https://v41-bears-team-24-production.up.railway.app/signin', 
           {method: "post",
             body: JSON.stringify({
             username: username,
@@ -27,9 +26,23 @@ const Landing = ({ setLoggedIn }: LandingProps) => {
       let data = await res.json();
       setLoggedIn({...data, password: ""});
       console.log(data);
+      fetchMenuData();
       return true;
     } else {
       return false;
+    }
+   }
+
+   const fetchMenuData = async () => {
+    const items = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menuitem');
+    const categories = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menucategory');
+    if (items.ok) {
+      const data = await items.json();
+      setMenuItems(data.data);
+    }
+    if (categories.ok) {
+      const data = await categories.json();
+      setMenuCategories(data.data);
     }
    }
 
