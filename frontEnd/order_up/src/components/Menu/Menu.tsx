@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import CategoryTab from './CategoryTab';
 import MenuItemCard from './MenuItemCard';
 
-const categories = ['Appetizers', 'Entrees', 'Sides', 'Beverages', 'Desserts'];
-const menuItems = [{name: 'Deep Fried Pickles', price: 6.00, category: 0},
-                    {name: 'Burger', price: 10.00, category: 1},
-                    {name: 'Pad Thai', price: 12.00, category: 1},
-                    {name: 'Lamb Schwarma', price: 12.00, category: 1},
-                    {name: 'Salad', price: 6.00, category: 2},
-                    {name: 'Soda', price: 3.00, category: 3},
-                    {name: 'Beer', price: 4.00, category: 3},
-                    {name: 'Key Lime Pie', price: 7.00, category: 4}];
+// const categories = ['Appetizers', 'Entrees', 'Sides', 'Beverages', 'Desserts'];
+// const menuItems = [{name: 'Deep Fried Pickles', price: 6.00, category: 0},
+//                     {name: 'Burger', price: 10.00, category: 1},
+//                     {name: 'Pad Thai', price: 12.00, category: 1},
+//                     {name: 'Lamb Schwarma', price: 12.00, category: 1},
+//                     {name: 'Salad', price: 6.00, category: 2},
+//                     {name: 'Soda', price: 3.00, category: 3},
+//                     {name: 'Beer', price: 4.00, category: 3},
+//                     {name: 'Key Lime Pie', price: 7.00, category: 4}];
 
-interface MenuProps { addItemToOrder: Function};
+interface MenuProps { addItemToOrder: Function, menuCategories: any[], menuItems: any[]};
 
-const Menu = ({ addItemToOrder }: MenuProps) => {
+const Menu = ({ addItemToOrder, menuCategories, menuItems}: MenuProps) => {
   const [activeTab, setActiveTab] = useState<number>(-1);
-  const [apiCategories, setApiCategories] = useState<any[]>([]);
-  const [apiMenuItems, setApiMenuItems] = useState<any[]>([]);
+  // const [apiCategories, setApiCategories] = useState<any[]>([]);
+  // const [apiMenuItems, setApiMenuItems] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   
   const navTabClick = (tab: number): void => {
@@ -29,29 +29,25 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
     return lowCaseSrc.includes(testString.toLowerCase())
   }
 
-  const getMenuCategories = () => {
-    fetch("https://v41-bears-team-24-production.up.railway.app/api/menucategory")
-  .then((res) => res.json())
-  .then((json) => setApiCategories(json.data))
-  .catch((err) => console.log(err))
-  }
+  // const getMenuCategories = () => {
+  //   fetch("https://v41-bears-team-24-production.up.railway.app/api/menucategory")
+  // .then((res) => res.json())
+  // .then((json) => setApiCategories(json.data))
+  // .catch((err) => console.log(err))
+  // }
 
-  const getMenuItems = () => {
-    fetch("https://v41-bears-team-24-production.up.railway.app/api/menuitem")
-  .then((res) => res.json())
-  .then((json) => setApiMenuItems(json.data))
-  .catch((err) => console.log(err))
+  // const getMenuItems = () => {
+  //   fetch("https://v41-bears-team-24-production.up.railway.app/api/menuitem")
+  // .then((res) => res.json())
+  // .then((json) => setApiMenuItems(json.data))
+  // .catch((err) => console.log(err))
 
-  }
+  // }
 
-  useEffect(() => {
-    //getMenuCategories();
-    //getMenuItems();
-  },[])
-
-  console.log(apiMenuItems);
-  console.log(apiCategories);
-  
+  // useEffect(() => {
+  //   //getMenuCategories();
+  //   //getMenuItems();
+  // },[])
  
   return (
     <div className="inline-block h-full w-12/12">
@@ -60,8 +56,8 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
 {/* menu categories */}
 		    <ul className="flex flex-wrap">
           <CategoryTab category={"All"} click={navTabClick} activeTab={activeTab} value={-1}/>
-          {categories.map((name, index) => {  //(cat)  category={cat.name} value={cat.id}
-            return <CategoryTab key={name + index} category={name} click={navTabClick} activeTab={activeTab} value={index}/>
+          {menuCategories.map((cat, index) => {
+            return <CategoryTab key={cat.name + index} category={cat.name} click={navTabClick} activeTab={activeTab} value={cat.id}/>
           })}
         </ul>
 {/* search bar */}
@@ -69,9 +65,12 @@ const Menu = ({ addItemToOrder }: MenuProps) => {
               className="m-2 w-96 text-gray-600 border-solid border-2 border-gray-700 rounded"/>
 {/* menu cards */}
         <div className="flex flex-wrap">
-          {menuItems.filter((item) => { return (item.category === activeTab || activeTab === -1) && strIncludes(item.name, searchQuery)})
+          {menuItems.filter((item) => { return (item.categoryId === activeTab || activeTab === -1) && strIncludes(item.name, searchQuery)})
             .map((item, index) => {
-              return <MenuItemCard key={item.name + index} name={item.name} price={item.price} click={addItemToOrder}/>
+              return <MenuItemCard key={item.name + index} name={item.name}
+                                    price={item.price} click={addItemToOrder}
+                                    description={item.description} ingredients={item.ingredients}
+                                    imgUrl={item.imageUrl}/>
             })}
         </div>
       </div>

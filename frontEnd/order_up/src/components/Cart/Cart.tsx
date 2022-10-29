@@ -25,7 +25,7 @@ const Cart = ({order, addNewOrder, resetOrder}: CartProps) => {
           Cancel
         </div>
       { order.items.map((item) => <p><span>{item.name} </span><span> {'$' + String(item.price)}</span></p>) }
-      <p>Total: <span> ${order.items.reduce((acc, item) => acc + item.price , 0)}</span></p>
+      <p>Total: <span> ${order.items.reduce((acc, item) => acc + parseFloat(item.price) , 0.0).toFixed(2)}</span></p>
       <div  onClick={confirmOrder}
             className="m-2 text-center px-1 py-2 text-white text-md bg-green-500 border-solid border-2 border-green-700 rounded hover:text-gray-300" >Confirm
       </div>
