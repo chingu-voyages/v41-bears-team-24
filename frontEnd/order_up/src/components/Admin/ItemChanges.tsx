@@ -3,15 +3,15 @@ import ItemCard from './ItemCard';
 import ItemForm from './ItemForm';
 
 interface ItemChangesProps {menuItems: any[], setMenuItems: Function, menuCategories: any[], showModal: string, setShowModal: Function, closeModal: Function};
-interface ItemFormData {id: number, name: string, price: number, description: string, category: string};
+interface ItemFormData {name: string, price: number, description: string, category: string, image: string};
 
 const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setShowModal, closeModal}: ItemChangesProps) => {
-  const emptyForm = {id: -1, name: '', price: 0, description: '', category: ''};
-  const [itemFormData, setItemFormData] = useState(emptyForm);
+  const emptyForm = { name: '', price: 0, description: '', category: '', image: ''};
+  // const [itemFormData, setItemFormData] = useState(emptyForm);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const menuItemClick = (data: ItemFormData): void => {
-    setItemFormData({...data});
+    // setItemFormData({...data});
 		setShowModal('menu-item');
 	}
 
@@ -20,12 +20,13 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
     return lowCaseSrc.includes(testString.toLowerCase())
   }
 
+
   return (
     <>
       <p className="text-2xl">Edit a menu item:</p>
       {showModal === "menu-item" ?
        <ItemForm menuCategories={menuCategories}
-                 itemFormData={itemFormData}
+                //  itemFormData={itemFormData}
                  closeModal={closeModal}/>
       :
       <>
