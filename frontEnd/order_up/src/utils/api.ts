@@ -1,9 +1,11 @@
+import { CreateOrder } from "./backendTypes";
+
 /**
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
  */
 const API_BASE_URL =
-    process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5001;
+    process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5000;
 
 /**
  * Defines the default headers for these functions to work with the express server
@@ -55,18 +57,18 @@ async function fetchJson(url: URL, options: any, onCancel?: any): Promise<Error 
  *  a promise that resolves to a possibly empty array of Menu Items saved in the database.
  */
 export async function listMenuItems(signal?: AbortSignal) {
-    const url = new URL(`${API_BASE_URL}/menuItem`);
+    const url = new URL(`${API_BASE_URL}/api/menuItem`);
     const result = await fetchJson(url, { headers, signal }, { data: [] });
     return result.data;
 }
 
 /**
  * Retrieves an existing menu item.
- * @returns {Promise<MenuItem>}
- *  a promise that resolves to a Menu Item object
+ * @returns {Promise<MenuItem | undefined>}
+ *  a promise that resolves to an menu item object
  */
-export async function getMenuItemn(menuItemId: Number, signal?: AbortSignal) {
-    const url = new URL(`${API_BASE_URL}/menuItem/${menuItemId}`);
+export async function getMenuItem(menuItemId: Number, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/menuItem/${menuItemId}`);
     const result = await fetchJson(url, { headers, signal }, { data: undefined });
     return result.data;
 }
@@ -85,14 +87,14 @@ export interface MenuItem {
 /**
  * Creates a menu item.
  * @returns {Promise<MenuItem>}
- *  a promise that resolves to a new Menu Item object
+ *  a promise that resolves to a new menu item object
  */
 export async function createMenuItem(menuItem: MenuItem, signal?: AbortSignal): Promise<MenuItem | undefined> {
-    const url = new URL(`${API_BASE_URL}/menuItem`);
+    const url = new URL(`${API_BASE_URL}/api/menuItem`);
     const options = {
         method: "POST",
         headers,
-        body: JSON.stringify({ data: menuItem }),
+        body: JSON.stringify(menuItem),
         signal,
     };
     const result = await fetchJson(url, options, { data: undefined });
@@ -104,18 +106,52 @@ export async function createMenuItem(menuItem: MenuItem, signal?: AbortSignal): 
  * @param {AbortSignal} signal
  * AbortSignal to abort fetching.
  * @returns {object} `MenuItem`
- * Object representing the modified reservation.
+ * Object representing the modified menu item.
  */
 export async function editMenuItem(menuItem: MenuItem, signal?: AbortSignal) {
-    const url = new URL(`${API_BASE_URL}/menuItem/${menuItem.id}`);
+    const url = new URL(`${API_BASE_URL}/api/menuItem/${menuItem.id}`);
     const options = {
         method: "PUT",
         headers,
-        body: JSON.stringify({ data: menuItem }),
+        body: JSON.stringify(menuItem),
         signal,
     };
     const menuItemReturned = await fetchJson(url, options);
-    return menuItemReturned;
+    return menuItemReturned.data;
+}
+
+/**
+ * Retrieves all existing orders.
+ * @returns {Promise<[any]>}
+ *  a promise that resolves to a possibly empty array of orders saved in the database.
+ */
+export async function listOrders(signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/order`);
+    const result = await fetchJson(url, { headers, signal }, { data: [] });
+    return result.data;
+}
+
+/**
+ * Retrieves an existing order.
+ * @returns {Promise<Order>}
+ *  a promise that resolves to an order object, or undefined if the item does not exist
+ */
+ export async function getOrder(orderId: Number, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/order/${orderId}`);
+    const result = await fetchJson(url, { headers, signal }, { data: undefined });
+    return result.data;
+}
+
+export async function createOrder(newOrder : CreateOrder, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/order`);
+    const options = {
+        method: "POST",
+        headers,
+        body: JSON.stringify(newOrder),
+        signal,
+    };
+    const result = await fetchJson(url, options);
+    return result.data;
 }
 
 export async function login(username: String, password: String, signal?: AbortSignal) {
@@ -129,3 +165,13 @@ export async function login(username: String, password: String, signal?: AbortSi
     };
     return await fetchJson(url, options);
 }
+
+// TODO: Remove this.
+// These lines are for development purpose, so you can call the functions
+// from your browser's console
+(window as any).CreateOrder = createOrder;
+(window as any).ListOrders = listOrders;
+(window as any).GetOrder = getOrder;
+(window as any).CreateMenuItem = createMenuItem;
+(window as any).ListMenuItems = listMenuItems;
+(window as any).GetMenuItem = getMenuItem;
