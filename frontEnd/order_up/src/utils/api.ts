@@ -39,7 +39,6 @@ async function fetchJson(url: URL, options: any, onCancel?: any): Promise<Error 
         if (payload.error) {
             return Promise.reject({ message: payload.error });
         }
-        console.log(payload);
         return payload;
     } catch (error: any) {
         if (error.name !== "AbortError") {
@@ -88,7 +87,7 @@ export interface MenuItem {
  * @returns {Promise<MenuItem>}
  *  a promise that resolves to a new Menu Item object
  */
-export async function createReservation(menuItem: MenuItem, signal?: AbortSignal) {
+export async function createMenuItem(menuItem: MenuItem, signal?: AbortSignal): Promise<MenuItem | undefined> {
     const url = new URL(`${API_BASE_URL}/menuItem`);
     const options = {
         method: "POST",
@@ -96,13 +95,12 @@ export async function createReservation(menuItem: MenuItem, signal?: AbortSignal
         body: JSON.stringify({ data: menuItem }),
         signal,
     };
-    return await fetchJson(url, options);
+    const result = await fetchJson(url, options, { data: undefined });
+    return result.data;
 }
 
 /**
  *
- * @param {number} menuItemId
- * menuItemId of the reservation to be modified.
  * @param {AbortSignal} signal
  * AbortSignal to abort fetching.
  * @returns {object} `MenuItem`
