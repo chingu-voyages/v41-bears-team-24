@@ -9,6 +9,7 @@ interface CartProps { order: cartOrder,
 
 const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
   const navigate = useNavigate();
+
   const confirmOrder = () => {
     addNewOrder(order);
     resetOrder();
@@ -30,7 +31,7 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
       }
     })
     console.log(newArray);
-    setOrder({id: order.id, items: newArray});
+    setOrder({...order, items: newArray});
   }
 
   const deleteItem = (id: number) => {

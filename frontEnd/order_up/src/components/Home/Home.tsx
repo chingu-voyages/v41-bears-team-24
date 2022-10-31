@@ -9,15 +9,16 @@ interface HomeProps {addNewOrder: Function, menuCategories: any[], menuItems: an
 const Home = ({ addNewOrder, menuCategories, menuItems }: HomeProps) => {
   const newId = () => Math.floor(Math.random() * 100);
 
-  const [order, setOrder] = useState<cartOrder>({ id: newId(), items: [] });
+  const [order, setOrder] = useState<cartOrder>({ id: newId(), completed: false, items: [] });
 
   const resetOrder = () => {
     const orderNumber = newId();
-    setOrder({ id: orderNumber, items: [] });
+    setOrder({ id: orderNumber,completed: false, items: [] });
   }
 
   const addItemToOrder = (name: string, price: string, modification: string, menuItemID: number) => {
     let id = Math.floor(Math.random() * 10000);
+    console.log(order);
     let updateOrder = {
       ...order, 
       items: order.items.concat({name: name, price: price, modification: '', menuItemId: menuItemID, id: id}),

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { FaTrashAlt } from 'react-icons/fa';
 import { FaEdit } from 'react-icons/fa';
 interface CartItemProps {setModification: Function, modification: string, deleteItem: Function, id: number, name: string, price: string};
@@ -6,7 +6,6 @@ interface CartItemProps {setModification: Function, modification: string, delete
 const CartItem = ({setModification, deleteItem, id, name, price, modification}: CartItemProps) => {
 	const [inputValue, setInputValue] = useState(modification);
   const [showInput, setShowInput] = useState(!!modification);
-  const inputRef = useRef<HTMLInputElement>(null);
 
 	const inputChange = (e: any) => {
 		setInputValue(e.target.value);
