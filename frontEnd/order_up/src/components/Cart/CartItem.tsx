@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { FaTrashAlt } from 'react-icons/fa';
-import { FaEdit } from 'react-icons/fa';
 interface CartItemProps {setModification: Function, modification: string, deleteItem: Function, id: number, name: string, price: string};
 
 const CartItem = ({setModification, deleteItem, id, name, price, modification}: CartItemProps) => {
@@ -21,8 +19,8 @@ const CartItem = ({setModification, deleteItem, id, name, price, modification}: 
 
 	return (
     <div className="border-b-2 border-solid border-grey-200 my-1">
-      <span className="inline-block" onClick={() => deleteItem(id)}><FaTrashAlt className="text-xl"/></span>
-      <span className="inline-block" onClick={() => setShowInput(!showInput)}><FaEdit className="text-xl"/></span>
+      <span className="inline-block" onClick={() => deleteItem(id)}>Delete</span>
+      <span className="inline-block ml-4" onClick={() => setShowInput(!showInput)}>Edit</span>
       <p className="font-bold">{name}</p>
       <p>${price}</p>
       { (showInput || inputValue) && <input className="bg-blue-100" type="text" value={inputValue}
