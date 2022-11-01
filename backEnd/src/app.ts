@@ -15,8 +15,6 @@ import cors from "cors";
 import CookieParser from "cookie-parser";
 import { AppRunner } from "aws-sdk";
 
-
-
 const app = express();
 
 app.use(cors());

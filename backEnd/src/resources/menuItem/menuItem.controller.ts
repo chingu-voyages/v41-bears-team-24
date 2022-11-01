@@ -2,17 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import asyncHandler from '../../errors/asyncHandler';
 import prisma from '../../prismaClient';
 import { validEmployee } from '../../auth/auth'
-import AWS from 'aws-sdk'
-
-AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-})
-
-const myBucket = new AWS.S3({
-    params: { Bucket: process.env.S3_BUCKET_NAME },
-    region: process.env.AWS_REGION
-})
 
 
 async function list(req: Request, res: Response) {
@@ -85,17 +74,6 @@ async function update(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     //TODO: Data Validations
-
-    // Send image to S3 and get back URL
-    function generatePreSignedPutUrl( fileName: string , fileType: string) {
-        myBucket.getSignedUrl('putObject', {
-            Key: fileName,
-            ContentType: fileType,
-            Expires: process.env.AWS_URL_EXPIRATION_TIME
-        } , (err , url) => {
-            return url // API Response Here
-        });
-    }
 
 
     const {
