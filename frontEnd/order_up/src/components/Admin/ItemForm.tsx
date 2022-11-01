@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface ItemFormProps {
   menuCategories: any[], 
@@ -9,14 +9,29 @@ interface ItemFormProps {
 const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
   const [itemFormData, setItemFormData] = useState({
     name: '',
-    price: 0.0,
+    price: '',
     ingredients: '',
     description: '',
+    calorieCount: '',
     category: '',
-    image: null
+    image: ''
   })
+  const [s3Url, setS3Url] = useState('')
 
-  console.log('itemFormData: ', itemFormData)
+// FIX TS ERROR, image state is null so it can never have property type on it.
+  useEffect(() => {
+      fetch('https://v41-bears-team-24-production.up.railway.app/api/s3url', {
+        method: 'POST',
+        headers: { "Content-Type": "application/json"},
+        // @ts-ignore
+        body: JSON.stringify({ fileType: itemFormData.image!.type })
+      })
+      .then(r => r.json())
+      .then(data => {
+        setS3Url(data.data)
+      })
+  }, [itemFormData.image])
+
 
   const updateForm = (e: any) => {
     if (e.target.name === 'image') {
@@ -29,22 +44,47 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
   }
 
 
-  const handleSubmit = () => {
-    // POST logic
+  const handleSubmit = async () => {
 
-    // CONVERT PRICE TO NUMBER SINCE IT GETS CONVERTED TO STRING FROM INPUT
-
-    //Upload image to s3 bucket
-    fetch('https://orderupbucket.s3.us-west-1.amazonaws.com/s3test?AWSAccessKeyId=AKIAYB6CVTHEVZJHL44Z&Content-Type=image%2Fjpeg&Expires=1667205986&Signature=3f7d7tW%2FjHFFPndLApI3ahccmxo%3D', {
+    // FIX TS ERROR
+    await fetch(s3Url, {
       method: 'PUT',
-      body: JSON.stringify(itemFormData.image)
+      headers: {
+        // @ts-ignore
+        "Content-Type": itemFormData.image!.type
+      },
+      body: itemFormData.image
     })
-     .then((r) => r.json())
-     .then(data => console.log('upload response: ', data))
-     .catch(e => console.error(e)) 
+
+    const imageUrl = s3Url.split('?')[0]
+
+    try {
+      const newItem = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menuitem', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: itemFormData.name,
+          // Change parsing. '3.50' becomes 3.5
+          price: parseFloat(itemFormData.price),
+          ingredients: itemFormData.ingredients,
+          description: itemFormData.description,
+          calorieCount: parseFloat(itemFormData.calorieCount),
+          image: imageUrl,
+          category: itemFormData.category
+        })
+      })
+
+      const response = await newItem.json()
+
+    } catch (error) {
+      console.error(error)
+    }
 
     closeModal()
   }
+
 
 
 
@@ -57,13 +97,16 @@ return (
         <input className="w-8/12" id="name" type="text" name='name' value={itemFormData.name} onChange={updateForm}/><br/>
 
         <div className="w-2/12 m-2 inline-block text-right">Price</div>
-        <input className="w-8/12" id="price" type="number" min={0} name='price' value={itemFormData.price} onChange={updateForm}/><br/>
+        <input className="w-8/12" id="price" type="text" min={0} name='price' value={itemFormData.price} onChange={updateForm}/><br/>
 
         <div className="w-2/12 m-2 inline-block text-right">Ingredients</div>
         <input className="inline-block w-8/12" id='ingredients' type="text" name='ingredients' value={itemFormData.ingredients} onChange={updateForm}/><br/>
 
         <div className="w-2/12 m-2 inline-block text-right">Description</div>
         <input className="inline-block w-8/12" id="description" type="text" name='description' value={itemFormData.description} onChange={updateForm}/><br/>
+
+        <label>Calories: </label>
+        <input className='w-8/12' type='text' name='calorieCount' value={itemFormData.calorieCount} onChange={updateForm}></input>
 
         <select className="w-3/12 m-2 inline-block text-right" id="category" name='category' value={itemFormData.category} onChange={updateForm}>
           {/* // value = cat.name onChange={updateForm} */}
@@ -87,4 +130,3 @@ return (
 }
 
 export default ItemForm;
-
