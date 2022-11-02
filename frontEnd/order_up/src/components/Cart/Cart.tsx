@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import CartItem from './CartItem';
 import { cartOrder } from '../interfaces'
+import { createOrder } from '../../utils/api';
 
 interface CartProps { order: cartOrder,
                       setOrder: Function,
@@ -10,11 +11,13 @@ interface CartProps { order: cartOrder,
 const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
   const navigate = useNavigate();
 
-  const confirmOrder = () => {
-    addNewOrder(order);
-    resetOrder();
-    //route to kitchen
-    navigate('/kitchen');
+  const confirmOrder = async () => {
+    const ok = await sendOrder();
+    //addNewOrder(order);
+    if (ok) {
+      resetOrder();
+      navigate('/kitchen');
+    }
   }
 
   const cancelOrder = () => {
@@ -39,10 +42,28 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
     setOrder({id: order.id, items: newArray}) ;
   }
 
+  const sendOrder = async () => {
+    try {
+      console.log('starting post')
+      const convertedItems = order.items.map((item) => {
+        return {quantity: 1, modifications: item.modification, menuItemId: item.menuItemId}
+      })
+      const data = await createOrder({customerName:'Josh', orderItems: convertedItems});
+      console.log('post complete')
+      return true;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
   return (
     <div className="relative">
       <p>Order Cart</p>
-      <p>Order#{order.id}</p>
+      <p>Customer Name:</p>
+      <input type="text" placeholder={'Customer #' + order.id}className="border-2 border-solid border-grey-300 bg-blue-100"/>
+
         <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-400 text-white border-solid border-2 border-red-700 rounded hover:text-gray-300">
           Cancel
         </div>

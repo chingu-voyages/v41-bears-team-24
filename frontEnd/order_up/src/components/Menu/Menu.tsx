@@ -35,10 +35,14 @@ const Menu = ({ addItemToOrder, menuCategories, menuItems}: MenuProps) => {
         <div className="flex flex-wrap">
           {menuItems.filter((item) => { return (item.categoryId === activeTab || activeTab === -1) && strIncludes(item.name, searchQuery)})
             .map((item, index) => {
-              return <MenuItemCard key={item.name + index} name={item.name}
-                                    price={item.price} click={addItemToOrder}
-                                    description={item.description} ingredients={item.ingredients}
-                                    imgUrl={item.imageUrl}/>
+              return <MenuItemCard  key={item.name + index}
+                                    name={item.name}
+                                    price={item.price} 
+                                    description={item.description}
+                                    ingredients={item.ingredients}
+                                    imgUrl={item.imageUrl}
+                                    menuItemId={item.id}
+                                    click={addItemToOrder}/>
             })}
         </div>
       </div>

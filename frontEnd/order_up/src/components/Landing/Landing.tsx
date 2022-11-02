@@ -10,39 +10,8 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
 
   const click = async (username: string) => {
     const ok = await tryLogin(username);
+    console.log(ok)
     if (ok === true) navigate('/menu');
-  }
-
-  const tryLogin = async (username: string) => {
-    try {
-      const data = await login(username, "password");
-      setLoggedIn({ ...data, password: "" });
-      console.log(data);
-      fetchMenuData();
-      return true;
-    }
-    catch (error) {
-      console.log(error);
-      return false;
-    }
-    // await fetch('/signin', 
-    //       {method: "post",
-    //         body: JSON.stringify({
-    //         username: username,
-    //         password: "password",
-    //       }),
-    //       headers: {
-    //         "Content-type": "application/json; charset=UTF-8"
-    //       }});
-    // if (res.ok) {
-    //   let data = await res.json();
-    //   setLoggedIn({...data, password: ""});
-    //   console.log(data);
-    //   fetchMenuData();
-    //   return true;
-    // } else {
-    //   return false;
-    // }
   }
 
   const fetchMenuData = async () => {
@@ -55,6 +24,20 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
     if (categories.ok) {
       const data = await categories.json();
       setMenuCategories(data.data);
+    }
+  }
+
+  const tryLogin = async (username: string) => {
+    try {
+      const data = await login(username, "password");
+      setLoggedIn({ ...data, password: "" });
+      console.log("data:" + data);
+      fetchMenuData();
+      return true;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
     }
   }
 
