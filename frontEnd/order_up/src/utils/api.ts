@@ -5,7 +5,7 @@ import { CreateOrder } from "./backendTypes";
  * The default values is overridden by the `API_BASE_URL` environment variable.
  */
 const API_BASE_URL =
-    process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5000;
+   process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5000;
 
 /**
  * Defines the default headers for these functions to work with the express server

@@ -16,12 +16,12 @@ const Home = ({ addNewOrder, menuCategories, menuItems }: HomeProps) => {
     setOrder({ id: orderNumber,completed: false, items: [] });
   }
 
-  const addItemToOrder = (name: string, price: string, modification: string, menuItemID: number) => {
+  const addItemToOrder = (name: string, price: string, menuItemId: number) => {
     let id = Math.floor(Math.random() * 10000);
     console.log(order);
     let updateOrder = {
       ...order, 
-      items: order.items.concat({name: name, price: price, modification: '', menuItemId: menuItemID, id: id}),
+      items: order.items.concat({name: name, price: price, modification: '', menuItemId: menuItemId, id: id}),
     }
     setOrder(updateOrder);
   }

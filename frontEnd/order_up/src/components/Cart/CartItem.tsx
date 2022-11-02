@@ -21,9 +21,13 @@ const CartItem = ({setModification, deleteItem, id, name, price, modification}: 
     <div className="border-b-2 border-solid border-grey-200 my-1">
       <span className="inline-block" onClick={() => deleteItem(id)}>Delete</span>
       <span className="inline-block ml-4" onClick={() => setShowInput(!showInput)}>Edit</span>
-      <p className="font-bold">{name}</p>
-      <p>${price}</p>
-      { (showInput || inputValue) && <input className="bg-blue-100" type="text" value={inputValue}
+      <div>
+        <input type="text" maxLength={2} size={1} className="w-6 border-2 border-solid border-grey-300 bg-blue-100 inline-block"/>
+        <p className="font-bold my-2 inline-block">{name}</p>
+        <p className="font-bold inline-block">${price}</p>
+      </div>
+  
+      { (showInput || inputValue) && <input className="mb-1 border-2 border-solid border-grey-300 bg-blue-100" type="text" value={inputValue}
                                             onChange={inputChange}
                                             onBlur={saveChange}
                                             onKeyPress={enter}/>}

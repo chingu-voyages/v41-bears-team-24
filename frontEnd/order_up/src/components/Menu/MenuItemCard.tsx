@@ -1,11 +1,11 @@
 import { useState } from 'react';
-interface MenuItemCardProps {name: String, price: Number, imgUrl: string, click: Function, description: string, ingredients: string};
+interface MenuItemCardProps {name: String, price: Number, imgUrl: string, click: Function, description: string, ingredients: string, menuItemId: Number};
 
 // const formatPrice = (price: Number): String => {
 //     let priceString = '';
 //     return priceString;
 // }
-const MenuItemCard = ({name, price, click, description, ingredients, imgUrl}: MenuItemCardProps) => {
+const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, menuItemId}: MenuItemCardProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const textSize = (name: String) => {
     if (name.length > 30) return "text-md font-bold";
@@ -28,7 +28,7 @@ const MenuItemCard = ({name, price, click, description, ingredients, imgUrl}: Me
         className="absolute bottom-0 left-0 m-1 px-1 py-2 text-gray text-md bg-gray-100 border-solid border-2 border-gray-800 rounded-2xl hover:text-gray-300">
         Description
       </span>
-      <span onClick={() => click(name, price)}
+      <span onClick={() => click(name, price, menuItemId)}
         className="absolute bottom-0 right-0 m-1 px-1 py-2 text-white text-md bg-blue-900 border-solid border-2 border-green-800 rounded-2xl hover:text-gray-300">
         Add to Order
       </span>
