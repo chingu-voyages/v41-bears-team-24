@@ -57,11 +57,14 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
                       return (
                         <div className="relative w-2/12">
                           <div className="m-1 p-1 bg-gray-200 border-solid border-2 border-gray-700 rounded">
-                            <div className="w-12/12 h-8 bg-red-500 text-center text-lg">Order# <span className="font-bold"> {order.id}</span></div>
-                            { order.OrderItem.map((item:any) => <p className="border-b-2 border-solid border-gray-300 my-1">
-                                                          <span>{item.menuItem.name} </span><span> {'$' + String(item.menuItem.price)}</span>
-                                                          {item.modifications && <p>-{item.modifications}</p>}
-                                                        </p>) }
+                            <div className="w-12/12 h-8 bg-yellow-500 text-center text-lg"><span className="font-bold"> {order.customerName}</span></div>
+                            { order.OrderItem.map((item:any) => 
+                              <div className="border-b-2 border-solid border-gray-300 my-1">
+                                <span className="mr-2">{item.quantity}</span>
+                                <span>{item.menuItem.name} </span>
+                                <span> {'$' + String(item.menuItem.price)}</span>
+                                {item.modifications && <p>-{item.modifications}</p>}
+                              </div> )}
                             <p>Total: <span> ${order.OrderItem.reduce((acc: number, item: any) => acc + parseFloat(item.menuItem.price) , 0).toFixed(2)}</span></p>
                             { order.status === "UPNEXT" ?
                               <div onClick={ () => {setCompleted(order.id)} } 
