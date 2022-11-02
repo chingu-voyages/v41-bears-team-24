@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cartOrder } from "../interfaces";
-import { listOrders } from '../../utils/api'
+import { listOrders, completeOrder } from '../../utils/api'
 
 interface KitchenProps { activeOrders: cartOrder[], setActiveOrders: Function }
 
@@ -21,19 +21,29 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
     fetchOrders();
   },[])
 
-  //console.log(activeOrders);
-  const setCompleted = (id: number) => {
-    //await: send to API here
-    //if confirmed...
-    const newOrders = activeOrders.map((order) => {
-      if (order.id !== id) {
-        return order;
-      } else {
-        console.log({...order, completed: true})
-        return {...order, completed: true};
-      }
-    })
-    setActiveOrders(newOrders);
+  const keyGen = (prefix: string) => {
+    return prefix + Math.floor(Math.random() * 1000);
+  }
+
+  const setCompleted = async (id: number) => {
+    let newOrders = null;
+    try {
+      const data = await completeOrder(id);
+      console.log(data);
+      //update local order state
+      newOrders = apiOrders.map((order: any) => {
+        if (order.id !== id) {
+          return order;
+        } else {
+          console.log({...order, status: "COMPLETED"})
+          return {...order, status: "COMPLETED"};
+        }
+      })
+    }
+    catch (error) {
+      console.log(error);
+    }
+    if (newOrders) setApiOrders(newOrders);
   }
   return (
     <>
@@ -55,7 +65,7 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
                     })
                     .map((order: any) => {
                       return (
-                        <div className="relative w-2/12">
+                        <div key={keyGen(order.customerName)} className="relative w-2/12">
                           <div className="m-1 p-1 bg-gray-200 border-solid border-2 border-gray-700 rounded">
                             <div className="w-12/12 h-8 bg-yellow-500 text-center text-lg"><span className="font-bold"> {order.customerName}</span></div>
                             { order.OrderItem.map((item:any) => 

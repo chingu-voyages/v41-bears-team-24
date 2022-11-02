@@ -32,12 +32,11 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
 
   const sendOrder = async () => {
     try {
-      console.log('starting post')
       const convertedItems = order.items.map((item) => {
         return {quantity: item.quantity, modifications: item.modification, menuItemId: item.menuItemId}
       })
       const data = await createOrder({customerName:customerName, orderItems: convertedItems});
-      console.log('post complete')
+      console.log(data);
       return true;
     }
     catch (error) {

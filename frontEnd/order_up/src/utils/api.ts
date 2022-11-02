@@ -4,8 +4,8 @@ import { CreateOrder } from "./backendTypes";
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
  */
-const API_BASE_URL = "https://v41-bears-team-24-production.up.railway.app";
-   // process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5000;
+const API_BASE_URL = 
+   process.env.REACT_APP_API_BASE_URL || "http://localhost:" + 5000;
 
 /**
  * Defines the default headers for these functions to work with the express server
@@ -166,6 +166,22 @@ export async function login(username: String, password: String, signal?: AbortSi
     return await fetchJson(url, options);
 }
 
+export async function completeOrder(id: number, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/order/${id}`);
+    const body = { customerName: null,
+    			  userID: null,
+    			  status: "COMPLETED"}
+    const options = {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(body),
+        signal,
+    };
+    const orderReturned = await fetchJson(url, options);
+    return orderReturned;
+}
+
+
 // TODO: Remove this.
 // These lines are for development purpose, so you can call the functions
 // from your browser's console
@@ -175,3 +191,5 @@ export async function login(username: String, password: String, signal?: AbortSi
 (window as any).CreateMenuItem = createMenuItem;
 (window as any).ListMenuItems = listMenuItems;
 (window as any).GetMenuItem = getMenuItem;
+(window as any).CompleteOrder = completeOrder;
+
