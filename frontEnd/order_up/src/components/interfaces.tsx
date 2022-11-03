@@ -1,4 +1,4 @@
-export interface orderItem {name: string, price: string, modification: string, menuItemId: number, id: number};
+export interface orderItem {name: string, price: string, modification: string, menuItemId: number, quantity: number, id: number};
 
 export interface cartOrder { id: number, completed: boolean, items: orderItem[] };
 
