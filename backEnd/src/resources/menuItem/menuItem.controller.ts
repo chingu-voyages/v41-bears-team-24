@@ -3,6 +3,7 @@ import asyncHandler from '../../errors/asyncHandler';
 import prisma from '../../prismaClient';
 import { validEmployee } from '../../auth/auth'
 
+
 async function list(req: Request, res: Response) {
     const data = await prisma.menuItem.findMany();
     return res.status(200).json({ data: data });
@@ -73,14 +74,16 @@ async function update(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     //TODO: Data Validations
+
+
     const {
         name,
         price,
         ingredients,
         description,
         calorieCount,
-        imageUrl,
-        categoryId
+        image,
+        category
     } = req.body;
 
     const newItem = await prisma.menuItem.create({
@@ -91,8 +94,8 @@ async function create(req: Request, res: Response) {
             ingredients: String(ingredients),
             description: String(description),
             calorieCount: Number(calorieCount),
-            imageUrl: String(imageUrl),
-            category: { connect: { id: categoryId } },
+            imageUrl: String(image),
+            category: { connect: { name: category } },
         },
     });
 

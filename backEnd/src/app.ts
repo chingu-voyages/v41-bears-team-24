@@ -9,10 +9,11 @@ import menuItemRouter from "./resources/menuItem/menuItem.router";
 import orderRouter from "./resources/order/order.router";
 import { signup, signin } from './auth/auth'
 import userRouter from './resources/user/user.router'
+import s3Router from './resources/S3/S3.router'
 
 import cors from "cors";
 import CookieParser from "cookie-parser";
-
+import { AppRunner } from "aws-sdk";
 
 const app = express();
 
@@ -34,6 +35,8 @@ app.use("/api/menucategory", menuCategoryRouter);
 app.use("/api/menuitem", menuItemRouter);
 
 app.use("/api/order", orderRouter);
+
+app.use('/api/s3url', s3Router)
 
 // Serve React App
 app.use(express.static(path.join(__dirname, "..", "..", "frontEnd", "order_up", "build")));
