@@ -65,7 +65,7 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
 
       {/* preload images */}
       {imageUrls.map( (url) => {
-          return <img className="opacity-0" width="1px" height="1px" src={url} alt="thumb"/>
+          return <img key={url} className="opacity-0" width="1px" height="1px" src={url} alt="thumb"/>
         }
       )}
     </>
