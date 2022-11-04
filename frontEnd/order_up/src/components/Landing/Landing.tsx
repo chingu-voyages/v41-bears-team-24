@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import LoginButton from './LoginButton';
 import { login } from '../../utils/api';
 
@@ -7,11 +7,15 @@ interface LandingProps { setLoggedIn: Function, setMenuCategories: Function, set
 
 const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps) => {
   const navigate = useNavigate();
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [loggingIn, setLoggingIn] = useState<boolean>(false);
 
   const click = async (username: string) => {
+    setLoggingIn(true);
     const ok = await tryLogin(username);
-    console.log(ok)
+    console.log(ok);
     if (ok === true) navigate('/menu');
+    else setLoggingIn(false);
   }
 
   const fetchMenuData = async () => {
@@ -20,6 +24,9 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
     if (items.ok) {
       const data = await items.json();
       setMenuItems(data.data);
+      //preload images
+      const urls = data.data.map((item: any) => item.imageUrl)
+      setImageUrls(urls.slice(0,10));
     }
     if (categories.ok) {
       const data = await categories.json();
@@ -32,7 +39,6 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
       const data = await login(username, "password");
       setLoggedIn({ ...data, password: "" });
       console.log("data:" + data);
-      fetchMenuData();
       return true;
     }
     catch (error) {
@@ -40,6 +46,11 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
       return false;
     }
   }
+
+  useEffect(() => {
+    fetchMenuData();
+  },[])
+
 
   return (
     <>
@@ -50,6 +61,13 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
         <LoginButton click={click} username="manager1" label="Manager" />
         <LoginButton click={click} username="admin1" label="Admin" />
       </div>
+      {loggingIn && <div className="text-center text-lg">Logging In...</div>}
+
+      {/* preload images */}
+      {imageUrls.map( (url) => {
+          return <img className="opacity-0" width="1px" height="1px" src={url} alt="thumb"/>
+        }
+      )}
     </>
   )
 }
