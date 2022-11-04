@@ -13,14 +13,14 @@ router
     .all(methodNotAllowed);
 
 router
-    .route("/:categoryid")
+    .route("/:categoryId")
     .get(controller.read)
     .put(controller.update)
     // Did not implement a DELETE route as it is potentially destructive (it would delete all menuItems linked to that category)
     .all(methodNotAllowed);
 
 router
-    .route("/:categoryid/items")
+    .route("/:categoryId/items")
     .get(controller.listItems)
     .all(methodNotAllowed);
 
