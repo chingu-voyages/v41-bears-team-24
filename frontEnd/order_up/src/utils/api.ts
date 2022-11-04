@@ -166,7 +166,7 @@ export async function login(username: String, password: String, signal?: AbortSi
     return await fetchJson(url, options);
 }
 
-export async function completeOrder(id: number, signal?: AbortSignal) {
+export async function completeOrder(id: Number, signal?: AbortSignal) {
     const url = new URL(`${API_BASE_URL}/api/order/${id}`);
     const body = { customerName: null,
     			  userID: null,
@@ -181,6 +181,17 @@ export async function completeOrder(id: number, signal?: AbortSignal) {
     return orderReturned;
 }
 
+export async function editMenuCategory(id: Number, categoryName: String, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/menuCategory/${id}`);
+    const options = {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ categoryName: categoryName }),
+        signal,
+    };
+    const menuCategoryReturned = await fetchJson(url, options);
+    return menuCategoryReturned.data;
+}
 
 // TODO: Remove this.
 // These lines are for development purpose, so you can call the functions
