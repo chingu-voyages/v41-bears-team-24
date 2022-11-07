@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
 import CartItem from './CartItem';
 import { cartOrder } from '../interfaces'
 import { createOrder } from '../../utils/api';
@@ -10,7 +11,7 @@ interface CartProps { order: cartOrder,
 
 const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
   const navigate = useNavigate();
-
+  const [customerName, setCustomerName] = useState('');
   const confirmOrder = async () => {
     const ok = await sendOrder();
     //addNewOrder(order);
@@ -24,19 +25,6 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
     resetOrder();
   }
 
-  const setModification = (id: number, value: string) => {
-    const newArray = order.items.map((item) => {
-      if (item.id !== id) {
-        return item;
-      } else {
-        console.log({...item, modification: value});
-        return {...item, modification: value};
-      }
-    })
-    console.log(newArray);
-    setOrder({...order, items: newArray});
-  }
-
   const deleteItem = (id: number) => {
     const newArray =  order.items.filter((item) => item.id !== id );
     setOrder({id: order.id, items: newArray}) ;
@@ -44,12 +32,11 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
 
   const sendOrder = async () => {
     try {
-      console.log('starting post')
       const convertedItems = order.items.map((item) => {
-        return {quantity: 1, modifications: item.modification, menuItemId: item.menuItemId}
+        return {quantity: item.quantity, modifications: item.modification, menuItemId: item.menuItemId}
       })
-      const data = await createOrder({customerName:'Josh', orderItems: convertedItems});
-      console.log('post complete')
+      const data = await createOrder({customerName:customerName, orderItems: convertedItems});
+      console.log(data);
       return true;
     }
     catch (error) {
@@ -62,7 +49,7 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
     <div className="relative">
       <p>Order Cart</p>
       <p>Customer Name:</p>
-      <input type="text" placeholder={'Customer #' + order.id}className="p-1 rounded-lg bg-blue-100"/>
+      <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder={'Customer #' + order.id}className="p-1 rounded-lg bg-blue-100"/>
 
         <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-400 text-white rounded-xl hover:bg-red-600 cursor-pointer">
           Cancel
