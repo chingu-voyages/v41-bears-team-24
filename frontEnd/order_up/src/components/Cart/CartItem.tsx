@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { ImCross } from 'react-icons/im'
-
-interface CartItemProps {setModification: Function, modification: string, deleteItem: Function, id: number, name: string, price: string};
+import { FaTrashAlt, FaEdit } from 'react-icons/fa';
+import { cartOrder } from '../interfaces'
 
 interface CartItemProps {order: cartOrder,setOrder: Function, modification: string, deleteItem: Function, id: number, name: string, price: string, quantity: number};
 
@@ -29,14 +28,17 @@ const CartItem = ({order, setOrder, deleteItem, id, name, price, modification, q
 
 	return (
     <div className="border-b-2 border-solid border-grey-200 my-1">
-
-      <div className="inline-block cursor-pointer text-red-500" onClick={() => deleteItem(id)}><ImCross/></div>
-      <span className="inline-block bg-orange-300 px-2 rounded-lg ml-4 cursor-pointer" onClick={() => setShowInput(!showInput)}>Edit</span>
+      <span className="inline-block" onClick={() => deleteItem(id)}><FaTrashAlt /></span>
+      <span className="inline-block ml-4" onClick={() => setShowInput(!showInput)}><FaEdit /></span>
       <div>
-        <input type="text" maxLength={2} size={1} className="w-7 mr-1 p-1 bg-blue-100 inline-block rounded-md"/>
-        <p className="my-2 inline-block">{name}</p>
-        <p className="inline-block">${price}</p>
-
+        <input type="text" maxLength={2} size={1} value={quantityInput}
+               className="w-6 border-2 border-solid border-grey-300 bg-blue-100 text-center inline-block"
+               onKeyPress={enter}
+               onBlur={setModifications}
+               onChange={(e: any) => {setQuantityInput(e.target.value)}}
+               />
+        <p className="font-bold my-2 inline-block">{name}</p>
+        <p className="font-bold inline-block">${price}</p>
       </div>
   
       { (showInput || inputValue) && <input className="mb-1 border-2 border-solid border-grey-300 bg-blue-100" type="text" value={inputValue}
