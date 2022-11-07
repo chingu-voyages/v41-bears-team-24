@@ -8,14 +8,39 @@ import Home from "./components/Home/Home";
 import Kitchen from "./components/Kitchen/Kitchen";
 import Admin from "./components/Admin/Admin";
 
+const EmptyUser = {createdAt: '', firstName: '', lastName: '', id: 0, password: '', role: '', username: ''};
 
+const getSessionValue = (key: string) => {
+  let value;
+  try {
+    value = JSON.parse( sessionStorage[key] );
+  }
+  catch {
+    value = null;
+  }
+  return value;
+}
 
 function App() {
-  const [menuCategories, setMenuCategories] = useState<any[]>([]);
-  const [menuItems, setMenuItems] = useState<any[]>([]);
+  const [menuCategories, setMenuCategories] = useState<any[]>(getSessionValue('menuCategories') ||[]);
+  const [menuItems, setMenuItems] = useState<any[]>(getSessionValue('menuItems') ||[]);
   const [activeOrders, setActiveOrders] = useState<cartOrder[]>([]);
-  const [loggedIn, setLoggedIn] = useState<User>({createdAt: '', firstName: '', lastName: '', id: 0,
-    password: '', role: '', username: ''});
+  const [loggedIn, setLoggedIn] = useState<User>(getSessionValue('loggedIn') || EmptyUser);
+
+  //save login data in session storage
+  useEffect(() => {
+    sessionStorage.loggedIn = JSON.stringify(loggedIn);
+  },[loggedIn]);
+
+  //save menu categories in session storage
+  useEffect(() => {
+    sessionStorage.menuCategories = JSON.stringify(menuCategories);
+  },[menuCategories]);
+
+  //save menu items in session storage
+  useEffect(() => {
+    sessionStorage.menuItems = JSON.stringify(menuItems);
+  },[menuItems]);
 
   const addNewOrder = (order: cartOrder) => {
     setActiveOrders(activeOrders.concat(order));
