@@ -49,21 +49,24 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
     <div className="relative">
       <p>Order Cart</p>
       <p>Customer Name:</p>
-      <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder={'Customer #' + order.id}className="p-1 rounded-lg bg-blue-100"/>
-
-        <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-400 text-white rounded-xl hover:bg-red-600 cursor-pointer">
-          Cancel
-        </div>
-      { order.items.map((item, index) => <CartItem key={item.id}
-                                                   setModification={setModification}
-                                                   deleteItem={deleteItem}
-                                                   id={item.id}
-                                                   name={item.name}
-                                                   price={item.price}
-                                                   modification={item.modification}/> )}
-      <p className='font-bold'>Total: <span> ${order.items.reduce((acc, item) => acc + parseFloat(item.price) , 0.0).toFixed(2)}</span></p>
+      <input type="text" value={customerName} placeholder={'Customer #' + order.id}
+             className="border-2 border-solid border-grey-300 bg-blue-100"
+             onChange={(e) => setCustomerName(e.target.value)}/>
+      <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-400 text-white border-solid border-2 border-red-700 rounded hover:text-gray-300">
+        Cancel
+      </div>
+      {order.items.map((item, index) => <CartItem key={item.id}
+                                                  order={order}
+                                                  setOrder={setOrder}
+                                                  deleteItem={deleteItem}
+                                                  id={item.id}
+                                                  name={item.name}
+                                                  price={item.price}
+                                                  quantity={item.quantity}
+                                                  modification={item.modification}/> )}
+      <p>Total: <span> ${order.items.reduce((acc, item) => acc + parseFloat(item.price) , 0.0).toFixed(2)}</span></p>
       <div  onClick={confirmOrder}
-            className="m-2 text-center px-1 py-2 text-white text-md bg-green-500 rounded-xl hover:bg-green-600 cursor-pointer" >Confirm
+            className="m-2 text-center px-1 py-2 text-white text-md bg-green-500 border-solid border-2 border-green-700 rounded hover:text-gray-300" >Confirm
       </div>
     </div>
   )

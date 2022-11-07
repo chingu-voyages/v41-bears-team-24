@@ -34,7 +34,7 @@ const Home = ({ addNewOrder, menuCategories, menuItems }: HomeProps) => {
               menuCategories={menuCategories}
               menuItems={menuItems}/>
       </div>
-      <div className="w-2/12 mt-40">
+      <div className="w-2/12">
         <Cart order={order}
               setOrder={setOrder}
               addNewOrder={addNewOrder}
