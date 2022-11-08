@@ -45,7 +45,7 @@ const sendIndex = (req: Request, res: Response) => {
 }
 
 // Send Index file for these routes
-app.get(/^\/(Admin|Menu|Kitchen)/, sendIndex);
+app.get(/^\/(Admin|Menu|Kitchen)/i, sendIndex);
 app.get('/', sendIndex);
 
 // Statically serve all other content (robots.txt, manifest.json, all js files, etc...)
