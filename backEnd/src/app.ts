@@ -1,4 +1,5 @@
 import express from "express";
+import { Request, Response } from 'express';
 import errorHandler from "./errors/errorHandler";
 import path from "path";
 import morgan from 'morgan'
@@ -36,9 +37,18 @@ app.use("/api/menuitem", menuItemRouter);
 
 app.use("/api/order", orderRouter);
 
-app.use('/api/s3url', s3Router)
+app.use('/api/s3url', s3Router);
 
 // Serve React App
+const sendIndex = (req: Request, res: Response) => {
+    res.sendFile('index.html', { root: path.join(__dirname, '../../frontEnd/order_up/build/') });
+}
+
+// Send Index file for these routes
+app.get(/^\/(Admin|Menu|Kitchen)/, sendIndex);
+app.get('/', sendIndex);
+
+// Statically serve all other content (robots.txt, manifest.json, all js files, etc...)
 app.use(express.static(path.join(__dirname, "..", "..", "frontEnd", "order_up", "build")));
 
 
