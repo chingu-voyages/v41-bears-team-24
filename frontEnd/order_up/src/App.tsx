@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { cartOrder } from "./components/interfaces";
-import { User } from "./components/interfaces";
+import { User, EmptyUser } from "./components/interfaces";
 import Landing from "./components/Landing/Landing";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Kitchen from "./components/Kitchen/Kitchen";
 import Admin from "./components/Admin/Admin";
 
-const EmptyUser = {createdAt: '', firstName: '', lastName: '', id: 0, password: '', role: '', username: ''};
+//const EmptyUser = {createdAt: '', firstName: '', lastName: '', id: 0, password: '', role: '', username: ''};
 
 const getSessionValue = (key: string) => {
   let value;
