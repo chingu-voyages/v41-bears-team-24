@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import LoginButton from './LoginButton';
 import { login } from '../../utils/api';
+import { EmptyUser } from '../interfaces';
 
 interface LandingProps { setLoggedIn: Function, setMenuCategories: Function, setMenuItems: Function };
 
@@ -9,6 +10,12 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
   const navigate = useNavigate();
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [loggingIn, setLoggingIn] = useState<boolean>(false);
+
+  useEffect(() => {
+    sessionStorage.loggedIn = JSON.stringify(EmptyUser);
+    setLoggedIn(EmptyUser);
+    fetchMenuData();
+  },[])
 
   const click = async (username: string) => {
     setLoggingIn(true);
@@ -46,11 +53,6 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
       return false;
     }
   }
-
-  useEffect(() => {
-    fetchMenuData();
-  },[])
-
 
   return (
     <>
