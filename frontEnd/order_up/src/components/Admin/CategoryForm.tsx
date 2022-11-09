@@ -17,14 +17,14 @@ const CategoryForm = ({ data , closeModal }: CategoryFormProps) => {
   }
   return (
     <>
-      <form className="flex justify-around z-10 mx-auto my-1 w-1/3 p-2 bg-gray-200">
+      <form className="flex justify-around z-10 mx-auto my-1 w-full px-2 py-4 bg-gray-300 rounded-lg">
         <fieldset>
-        <legend>{header}</legend>
-        <input type="text" value={categoryName} onChange={inputHandler}/>
-        <span onClick={() => closeModal()} className="px-6 ml-2 bg-green-400 text-white border-solid border-2 border-green-700 rounded hover:text-gray-300">
+        <legend className='text-center mb-4'>{header}</legend>
+        <input className='rounded-lg px-2' type="text" value={categoryName} onChange={inputHandler}/>
+        <span onClick={() => closeModal()} className="px-6 py-1 ml-2 bg-green-400 text-white rounded cursor-pointer hover:bg-green-600">
           Confirm
         </span>
-        <span onClick={() => closeModal()} className="px-6 ml-2 bg-red-400 text-white border-solid border-2 border-red-700 rounded hover:text-gray-300">
+        <span onClick={() => closeModal()} className="px-6 py-1 ml-2 bg-red-400 text-white rounded cursor-pointer hover:bg-red-600">
           Cancel
         </span>
         </fieldset>

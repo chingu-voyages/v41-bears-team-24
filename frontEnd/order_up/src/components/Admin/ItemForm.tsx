@@ -35,8 +35,6 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
 
   const updateForm = (e: any) => {
     if (e.target.name === 'image') {
-      console.log('image:', e.target.files[0])
-      console.log(typeof e.target.files[0])
       setItemFormData({...itemFormData, image: e.target.files[0]})
     } else {
       setItemFormData({...itemFormData, [e.target.name]: e.target.value})
@@ -90,37 +88,45 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
 
     // Change divs to label element
 return (
-      <form className="z-10 mx-auto w-6/12 p-2 bg-gray-200">
+      <form className="z-10 mx-auto w-6/12 p-4 bg-gray-200 rounded-lg">
       <fieldset>
-        <legend>Item:</legend>
-        <div className="w-2/12 m-2 inline-block text-right">Name</div>
-        <input className="w-8/12" id="name" type="text" name='name' value={itemFormData.name} onChange={updateForm}/><br/>
+        <label className="w-2/12 m-2 inline-block text-right">Name:</label>
+        <input className="w-8/12 rounded-lg px-2" id="name" type="text" name='name' value={itemFormData.name} onChange={updateForm}/><br/>
 
-        <div className="w-2/12 m-2 inline-block text-right">Price</div>
-        <input className="w-8/12" id="price" type="text" min={0} name='price' value={itemFormData.price} onChange={updateForm}/><br/>
+        <label className="w-2/12 m-2 inline-block text-right">Price:</label>
+        <input className="w-8/12 rounded-lg px-2" id="price" type="text" min={0} name='price' value={itemFormData.price} onChange={updateForm}/><br/>
 
-        <div className="w-2/12 m-2 inline-block text-right">Ingredients</div>
-        <input className="inline-block w-8/12" id='ingredients' type="text" name='ingredients' value={itemFormData.ingredients} onChange={updateForm}/><br/>
+        <label className="w-2/12 m-2 inline-block text-right">Ingredients:</label>
+        <input className="inline-block w-8/12 rounded-lg px-2" id='ingredients' type="text" name='ingredients' value={itemFormData.ingredients} onChange={updateForm}/><br/>
 
-        <div className="w-2/12 m-2 inline-block text-right">Description</div>
-        <input className="inline-block w-8/12" id="description" type="text" name='description' value={itemFormData.description} onChange={updateForm}/><br/>
+        <label className="w-2/12 m-2 inline-block text-right">Description:</label>
+        <input className="inline-block w-8/12 rounded-lg px-2" id="description" type="text" name='description' value={itemFormData.description} onChange={updateForm}/><br/>
 
-        <label>Calories: </label>
-        <input className='w-8/12' type='text' name='calorieCount' value={itemFormData.calorieCount} onChange={updateForm}></input>
+        <label className="w-2/12 m-2 inline-block text-right">Calories: </label>
+        <input className='w-8/12 rounded-lg px-2' type='text' name='calorieCount' value={itemFormData.calorieCount} onChange={updateForm}></input>
 
-        <select className="w-3/12 m-2 inline-block text-right" id="category" name='category' value={itemFormData.category} onChange={updateForm}>
-          {/* // value = cat.name onChange={updateForm} */}
-          {menuCategories.map((cat, index) => <option key={cat.name + index} value={cat.name}>{cat.name}</option>)}
-        </select>
+        <div className='flex justify-around'>
+          {/* <div > */}
+            <div className=''>
+              <label className='mr-2'>Category:</label>
+              <select className='rounded-lg'  id="category" name='category' value={itemFormData.category} onChange={updateForm}>
+              {/* // value = cat.name onChange={updateForm} */}
+              {menuCategories.map((cat, index) => <option key={cat.name + index} value={cat.name}>{cat.name}</option>)}
+              </select>
+            </div>
 
-        <div  className="w-3/12 mx-4 inline-block text-right">Image: </div>
-        <input className="w-5/12" id="imgLoad" type="file" accept="image/png, image/jpeg" name='image' onChange={updateForm}/><br/>
-
-        <div className="flex justify-around">
-          <span onClick={() => handleSubmit()} className="px-6 ml-2 w-4/12 bg-green-400 text-white text-center border-solid border-2 border-green-700 rounded hover:text-gray-300">
+            <div>
+              <label  className="">Image: </label>
+              <input className="" id="imgLoad" type="file" accept="image/png, image/jpeg" name='image' onChange={updateForm}/><br/>
+            </div>
+          {/* </div> */}
+        </div>
+        
+        <div className="flex justify-around mt-2">
+          <span onClick={() => handleSubmit()} className="px-6 py-1 ml-2 w-4/12 bg-green-400 text-white text-center rounded cursor-pointer hover:bg-green-600">
             Confirm
           </span>
-          <span onClick={() => closeModal()} className="px-6 ml-2 w-4/12 bg-red-400 text-white text-center border-solid border-2 border-red-700 rounded hover:text-gray-300">
+          <span onClick={() => closeModal()} className="px-6 py-1 ml-2 w-4/12 bg-red-400 text-white text-center rounded cursor-pointer hover:bg-red-600">
             Cancel
           </span>
         </div>

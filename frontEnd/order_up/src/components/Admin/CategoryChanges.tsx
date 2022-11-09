@@ -15,19 +15,21 @@ const CategoryChanges = ({ showModal, setShowModal, closeModal, menuCategories, 
     }
 
     return (
-      <>
-        <p className="text-2xl">Edit a menu category:</p>
-        {showModal === 'category'  ?
-          <CategoryForm data={categoryFormData} closeModal={closeModal} />
-        :
-          <ul className="flex flex-wrap">
-            {menuCategories.map((cat, index) => {
-              return <CategoryTab key={cat.name + index} category={cat.name} click={categoryTabClick} id={cat.id}/>
-            })}
-            <CategoryTab category={"Add New"} click={categoryTabClick} id={-1}/>
-          </ul>
-        }
-      </>
+      <div className='flex justify-center'>
+        <div className=''>
+          <p className="text-center text-3xl">Edit a menu category:</p>
+          {showModal === 'category'  ?
+            <CategoryForm data={categoryFormData} closeModal={closeModal} />
+          :
+            <ul className="flex flex-wrap">
+              {menuCategories.map((cat, index) => {
+                return <CategoryTab key={cat.name + index} category={cat.name} click={categoryTabClick} id={cat.id}/>
+              })}
+              <CategoryTab category={"Add New"} click={categoryTabClick} id={-1}/>
+            </ul>
+          }
+        </div>
+      </div>
     )
 }
 

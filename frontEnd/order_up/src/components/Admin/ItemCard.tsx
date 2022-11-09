@@ -1,12 +1,21 @@
-interface MenuItemCardProps {name: String, price: Number, click: Function};
+interface MenuItemCardProps {name: String, price: Number, click: Function, imageUrl: string};
 
-const EditMenuItemCard = ({name, price, click}: MenuItemCardProps) => {
+const EditMenuItemCard = ({name, price, click, imageUrl}: MenuItemCardProps) => {
     const itemData = {id: 6, name: name, price: price, description: '', category: ''};
+
+    const truncateString = (name: String) => {
+        if (name.length > 25) {
+          return `${name.slice(0,20)}...`
+        } else return name
+      }
+
     return (
-        <div onClick={() => click(itemData)} className="relative w-56 h-48 m-2 bg-gray-100 pb-1 border-solid border-2 border-gray-700 rounded-3xl hover:border-gray-400">
-            <div className="w-52 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl"></div>
-            <span className="text-xl font-bold pl-1">{name} </span>
-            <span> ${String(price)}</span>
+        <div onClick={() => click(itemData)} className="w-64 h-70 m-2 bg-gray-100 pb-1 rounded-2xl drop-shadow-xl cursor-pointer">
+            <div className='p-2 '>
+                <div className="w-54 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl overflow-clip"><img src={imageUrl} alt="food"/></div>
+                <span className='text-lg font-bold '>{truncateString(name)}</span>
+                <p className='py-4'> ${String(price)}</p>
+            </div>
         </div>
     )
 }

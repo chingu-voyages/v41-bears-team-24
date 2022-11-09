@@ -20,34 +20,39 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
     return lowCaseSrc.includes(testString.toLowerCase())
   }
 
-
   return (
-    <>
-      <p className="text-2xl">Edit a menu item:</p>
+    <div className=''>
+      <p className="text-center text-3xl">Edit a menu item:</p>
       {showModal === "menu-item" ?
        <ItemForm menuCategories={menuCategories}
                 //  itemFormData={itemFormData}
                  closeModal={closeModal}/>
       :
-      <>
-        <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
-              className="m-2 w-96 text-gray-600 border-solid border-2 border-gray-700 rounded"/>
-        <div className="flex flex-wrap">
-          {menuItems.filter((item) => strIncludes(item.name, searchQuery))
-                    .filter((item, index) => index < 5)
-            .map((item, index) => {
-              return <ItemCard key={item.name + index} name={item.name} price={item.price} click={menuItemClick}/>
-            })}
-          <div className="relative w-56 h-48 m-2 bg-gray-100 pb-1 border-solid border-2 border-gray-700 rounded-3xl hover:border-gray-400">
-            <div className="w-52 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl">
-              <div onClick={() => menuItemClick(emptyForm)} className="p-8 text-center text-white text-bold text-4xl">Add New</div>
+      <div className='flex justify-center mt-3'>
+        <div>
+          <div className='flex justify-center'>
+            <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
+                className="m-2 w-96 px-3 py-2 text-gray-600 rounded-full shadow-gray-400 shadow-xl "/>
+          </div>
+
+          <div className="flex flex-wrap mt-3">
+            {menuItems.filter((item) => strIncludes(item.name, searchQuery))
+                      .filter((item, index) => index < 4)
+              .map((item, index) => {
+                return <ItemCard key={item.name + index} name={item.name} price={item.price} click={menuItemClick} imageUrl={item.imageUrl}/>
+              })}
+            <div className="relative w-56 h-48 m-2 bg-gray-100 pb-1 rounded-3xl cursor-pointer " onClick={() => menuItemClick(emptyForm)}>
+              <div className="w-52 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl">
+                <div  className="p-8 text-center text-white text-bold text-4xl ">Add New</div>
+              </div>
             </div>
           </div>
         </div>
-      </>
+      </div>
         }
-    </>
+    </div>
   )
 }
 
 export default ItemChanges;
+
