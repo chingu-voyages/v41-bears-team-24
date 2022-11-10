@@ -1,3 +1,4 @@
+import { stringify } from 'querystring';
 import { useState } from 'react';
 interface MenuItemCardProps {name: String, price: Number, imgUrl: string, click: Function, description: string, ingredients: string, menuItemId: Number};
 
@@ -13,13 +14,13 @@ const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, men
       return `${name.slice(0,20)}...`
     } else return name
   }
-  
+  // shadow-md shadow-blue-200
   return (
-    <div className="relative w-56 h-64 m-2 bg-gray-100 pb-1 border-solid border-2 border-gray-700 rounded-3xl">
+    <div className="w-64 h-70 m-2 bg-gray-100 pb-1 rounded-2xl drop-shadow-xl">
       {showModal && <div  onClick={() => setShowModal(false)}
         className="z-20 absolute inset-x-2 top-2 p-1 bg-gray-200 border-solid border-2 border-gray-700 rounded-xl">
         <p className="text-sm">click to close</p>
-        <p className="text-xl font-bold">{name}</p>
+        <p className="text-xl font-bold ">{name}</p>
         <p>{description}</p>
         <p className="text-xl font-bold">Ingredients:</p>
         <p>{ingredients}</p>
