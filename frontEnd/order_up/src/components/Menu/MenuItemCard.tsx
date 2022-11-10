@@ -7,10 +7,13 @@ interface MenuItemCardProps {name: String, price: Number, imgUrl: string, click:
 // }
 const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, menuItemId}: MenuItemCardProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
-  const textSize = (name: String) => {
-    if (name.length > 30) return "text-md font-bold";
-    else return "text-xl font-bold";
+
+  const truncateString = (name: String) => {
+    if (name.length > 25) {
+      return `${name.slice(0,20)}...`
+    } else return name
   }
+  
   return (
     <div className="relative w-56 h-64 m-2 bg-gray-100 pb-1 border-solid border-2 border-gray-700 rounded-3xl">
       {showModal && <div  onClick={() => setShowModal(false)}
@@ -21,17 +24,23 @@ const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, men
         <p className="text-xl font-bold">Ingredients:</p>
         <p>{ingredients}</p>
       </div> }
-      <div className="w-52 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl overflow-hidden"><img src={imgUrl} alt="food"/></div>
-      <span className={textSize(name)}>{name}</span>
-      <span> ${String(price)}</span>
-      <span onClick={() => setShowModal(true)}
-        className="absolute bottom-0 left-0 m-1 px-1 py-2 text-gray text-md bg-gray-100 border-solid border-2 border-gray-800 rounded-2xl hover:text-gray-300">
-        Description
-      </span>
-      <span onClick={() => click(name, price, menuItemId)}
-        className="absolute bottom-0 right-0 m-1 px-1 py-2 text-white text-md bg-blue-900 border-solid border-2 border-green-800 rounded-2xl hover:text-gray-300">
-        Add to Order
-      </span>
+
+      <div className='p-2 '>
+        <div className="w-54 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl overflow-clip"><img src={imgUrl} alt="food"/></div>
+        <span className='text-lg font-bold '>{truncateString(name)}</span>
+        <p className='py-4'> ${String(price)}</p>
+
+        <div className='flex justify-between w-full'>
+          <span onClick={() => setShowModal(true)}
+            className="px-3 py-2 text-black bg-cyan-400 rounded-2xl hover:bg-cyan-600 cursor-pointer">
+            Description
+          </span>
+          <span onClick={() => click(name, price, menuItemId)}
+            className="px-3 py-2 text-center text-gray-800 bg-gradient-to-r from-yellow-300 to-orange-400 rounded-2xl hover:from-yellow-500 hover:to-orange-600 cursor-pointer">
+            Add to Order
+          </span>
+        </div>
+      </div>
     </div>
 
   )

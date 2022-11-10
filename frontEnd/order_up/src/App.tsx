@@ -50,18 +50,10 @@ function App() {
     <div>
       <Navbar loggedIn={loggedIn}/>
       <Routes>
-        <Route path="/" element={<Landing setLoggedIn={setLoggedIn}
-                                          setMenuCategories={setMenuCategories}
-                                          setMenuItems={setMenuItems}/>}/>
-        <Route path="/menu" element={<Home addNewOrder={addNewOrder}
-                                      menuCategories={menuCategories}
-                                      menuItems={menuItems}/>}/>
-        <Route path="/kitchen" element={<Kitchen activeOrders={activeOrders}
-                                                 setActiveOrders={setActiveOrders}/>}/>
-        <Route path="/admin" element={<Admin menuCategories={menuCategories}
-                                             setMenuCategories={setMenuCategories}
-                                             menuItems={menuItems}
-                                             setMenuItems={setMenuItems}/>}/>
+        <Route path="/" element={<Landing setLoggedIn={setLoggedIn} setMenuCategories={setMenuCategories} setMenuItems={setMenuItems}/>}/>
+        <Route path="/menu" element={<Home addNewOrder={addNewOrder} menuCategories={menuCategories} menuItems={menuItems}/>}/>
+        <Route path="/kitchen" element={<Kitchen activeOrders={activeOrders} setActiveOrders={setActiveOrders}/>}/>
+        <Route path="/admin" element={<Admin menuCategories={menuCategories} setMenuCategories={setMenuCategories} menuItems={menuItems} setMenuItems={setMenuItems}/>}/>
       </Routes>
     </div>
   );
