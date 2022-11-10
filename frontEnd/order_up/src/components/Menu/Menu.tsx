@@ -57,6 +57,32 @@ const Menu = ({ addItemToOrder, menuCategories, menuItems}: MenuProps) => {
         }
 
 
+{/*
+    <div className="inline-block h-full w-12/12">
+      <h3 className="text-xl">Menu</h3>
+      <div>
+		    <ul className="flex flex-wrap">
+          <CategoryTab category={"All"} click={navTabClick} activeTab={activeTab} value={-1}/>
+          {menuCategories.map((cat, index) => {
+            return <CategoryTab key={cat.name + index} category={cat.name} click={navTabClick} activeTab={activeTab} value={cat.id}/>
+          })}
+        </ul>
+        <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
+              className="m-2 w-96 text-gray-600 border-solid border-2 border-gray-700 rounded"/>
+        <div className="flex flex-wrap">
+          {menuItems.filter((item) => { return (item.categoryId === activeTab || activeTab === -1) && strIncludes(item.name, searchQuery)})
+            .map((item, index) => {
+              return <MenuItemCard  key={item.name + index}
+                                    name={item.name}
+                                    price={item.price} 
+                                    description={item.description}
+                                    ingredients={item.ingredients}
+                                    imgUrl={item.imageUrl}
+                                    menuItemId={item.id}
+                                    click={addItemToOrder}/>
+            })}
+        </div>
+*/}
       </div>
     </div>
   )

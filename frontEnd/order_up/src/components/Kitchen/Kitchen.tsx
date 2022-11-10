@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { cartOrder } from "../interfaces";
-import { listOrders } from '../../utils/api'
+import { listOrders, completeOrder } from '../../utils/api'
 import Loading from '../loading'
 import KitchenCards from './kitchenCards'
 import { setConstantValue } from 'typescript';
@@ -26,19 +26,29 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
     fetchOrders();
   },[])
 
-  //console.log(activeOrders);
-  const setCompleted = (id: number) => {
-    //await: send to API here
-    //if confirmed...
-    const newOrders = activeOrders.map((order) => {
-      if (order.id !== id) {
-        return order;
-      } else {
-        console.log({...order, completed: true})
-        return {...order, completed: true};
-      }
-    })
-    setActiveOrders(newOrders);
+  const keyGen = (prefix: string) => {
+    return prefix + Math.floor(Math.random() * 1000);
+  }
+
+  const setCompleted = async (id: number) => {
+    let newOrders = null;
+    try {
+      const data = await completeOrder(id);
+      console.log(data);
+      //update local order state
+      newOrders = apiOrders.map((order: any) => {
+        if (order.id !== id) {
+          return order;
+        } else {
+          console.log({...order, status: "COMPLETED"})
+          return {...order, status: "COMPLETED"};
+        }
+      })
+    }
+    catch (error) {
+      console.log(error);
+    }
+    if (newOrders) setApiOrders(newOrders);
   }
   return (
     <>
@@ -54,8 +64,43 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
             Completed
         </div>
       </div>
+
       <div className="flex justify-center mt-6">
         {loadingState ? <Loading /> : <KitchenCards apiOrders={apiOrders} filterTab={filterTab} setCompleted={setCompleted} /> }
+
+{
+/*      <div className="flex flex-wrap justify-right">
+      {apiOrders.filter((order: any) => { //activeOrders
+                     return (filterTab === 'Completed' && order.status === "COMPLETED") ||
+                            (filterTab === 'Active' && order.status === "UPNEXT");
+                    })
+                    .map((order: any) => {
+                      return (
+                        <div key={keyGen(order.customerName)} className="relative w-2/12">
+                          <div className="m-1 p-1 bg-gray-200 border-solid border-2 border-gray-700 rounded">
+                            <div className="w-12/12 h-8 bg-yellow-500 text-center text-lg"><span className="font-bold"> {order.customerName}</span></div>
+                            { order.OrderItem.map((item:any) => 
+                              <div className="border-b-2 border-solid border-gray-300 my-1">
+                                <span className="mr-2">{item.quantity}</span>
+                                <span>{item.menuItem.name} </span>
+                                <span> {'$' + String(item.menuItem.price)}</span>
+                                {item.modifications && <p>-{item.modifications}</p>}
+                              </div> )}
+                            <p>Total: <span> ${order.OrderItem.reduce((acc: number, item: any) => acc + parseFloat(item.menuItem.price) , 0).toFixed(2)}</span></p>
+                            { order.status === "UPNEXT" ?
+                              <div onClick={ () => {setCompleted(order.id)} } 
+                              className="mx-auto text-center text-white text-md bg-green-500 border-solid border-2 border-green-700 rounded hover:text-gray-300">
+                                Complete
+                              </div>
+                            :
+                              <div className="mx-auto text-center text-black text-md">Completed</div>
+                            }
+                          </div>
+                        </div>
+                      )
+                    })}
+*/
+}
       </div>
     </>
   )

@@ -21,7 +21,7 @@ const Home = ({ addNewOrder, menuCategories, menuItems }: HomeProps) => {
     console.log(order);
     let updateOrder = {
       ...order, 
-      items: order.items.concat({name: name, price: price, modification: '', menuItemId: menuItemId, id: id}),
+      items: order.items.concat({name: name, price: price, modification: '', menuItemId: menuItemId, id: id, quantity: 1}),
     }
     setOrder(updateOrder);
   }
@@ -34,7 +34,7 @@ const Home = ({ addNewOrder, menuCategories, menuItems }: HomeProps) => {
               menuCategories={menuCategories}
               menuItems={menuItems}/>
       </div>
-      <div className="w-2/12 mt-40">
+      <div className="w-2/12">
         <Cart order={order}
               setOrder={setOrder}
               addNewOrder={addNewOrder}
