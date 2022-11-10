@@ -1,21 +1,27 @@
 import { useState } from 'react';
 import { ImCross } from 'react-icons/im'
 
-interface CartItemProps {setModification: Function, modification: string, deleteItem: Function, id: number, name: string, price: string};
+interface CartItemProps {quantity: number, setItemDetails: Function, modification: string, deleteItem: Function, id: number, name: string, price: string};
 
-const CartItem = ({setModification, deleteItem, id, name, price, modification}: CartItemProps) => {
-	const [inputValue, setInputValue] = useState(modification);
+const CartItem = ({setItemDetails, deleteItem, id, name, price, modification, quantity}: CartItemProps) => {
+	const [modificationInput, setModificationInput] = useState(modification);
   const [showInput, setShowInput] = useState(!!modification);
+  const [quantityInput, setQuantityInput] = useState<string>(String(quantity));
 
-	const inputChange = (e: any) => {
-		setInputValue(e.target.value);
+
+	const modificationInputChange = (e: any) => {
+		setModificationInput(e.target.value);
 	}
 
-  const saveChange = () => {
-    setModification(id, inputValue);
+  const quantityInputChange = (e: any) => {
+		setQuantityInput(e.target.value.replace(/[^0-9]/g, ''))
+	}
+
+  const saveChanges = () => {
+    setItemDetails(id, modificationInput, quantityInput);
   }
 
-  const enter = (e: any) => {
+  const checkEnter = (e: any) => {
     if (e.key === 'Enter') e.target.blur();
   }
 
@@ -24,15 +30,19 @@ const CartItem = ({setModification, deleteItem, id, name, price, modification}: 
       <div className="inline-block cursor-pointer text-red-500" onClick={() => deleteItem(id)}><ImCross/></div>
       <span className="inline-block bg-orange-300 px-2 rounded-lg ml-4 cursor-pointer" onClick={() => setShowInput(!showInput)}>Edit</span>
       <div>
-        <input type="text" maxLength={2} size={1} className="w-7 mr-1 p-1 bg-blue-100 inline-block rounded-md"/>
+        <input type="text" maxLength={2} size={1}  value={quantityInput}
+               className="w-7 mr-1 p-1 bg-blue-100 inline-block rounded-md"
+               onKeyPress={checkEnter}
+               onBlur={saveChanges}
+               onChange={quantityInputChange}/>
         <p className="my-2 inline-block">{name}</p>
         <p className="inline-block">${price}</p>
       </div>
   
-      { (showInput || inputValue) && <input className="mb-1 border-2 border-solid border-grey-300 bg-blue-100" type="text" value={inputValue}
-                                            onChange={inputChange}
-                                            onBlur={saveChange}
-                                            onKeyPress={enter}/>}
+      { (showInput || modificationInput) && <input className="mb-1 border-2 border-solid border-grey-300 bg-blue-100" type="text" value={modificationInput}
+                                            onChange={modificationInputChange}
+                                            onBlur={saveChanges}
+                                            onKeyPress={checkEnter}/>}
     </div>
   )
 }
