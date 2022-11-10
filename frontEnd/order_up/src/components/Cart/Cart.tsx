@@ -55,7 +55,19 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
       const convertedItems = order.items.map((item) => {
         return {quantity: item.quantity, modifications: item.modification, menuItemId: item.menuItemId}
       })
-      const data = await createOrder({customerName: customerName, orderItems: convertedItems});
+      //consolidate multiple identical menu items into single item with 'quantity' count
+      const shortOrder: any[] = [];
+      convertedItems.forEach((item) => {
+        let matchingIdx = -1;
+        for (let i = 0; i < shortOrder.length; i++) {
+          if (shortOrder[i].menuItemId === item.menuItemId && shortOrder[i].modifications === item.modifications) {
+            matchingIdx = i;
+          }
+        }
+        if (matchingIdx > -1) shortOrder[matchingIdx].quantity++;
+        else shortOrder.push(item);
+      });
+      const data = await createOrder({customerName: customerName, orderItems: shortOrder});
       console.log(data);
       return true;
     }
