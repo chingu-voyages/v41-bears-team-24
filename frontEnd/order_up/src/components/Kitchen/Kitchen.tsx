@@ -19,16 +19,21 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
     let currentOrders;
     async function fetchOrders() {
       currentOrders = await listOrders();
-      console.log(currentOrders)
-      setApiOrders(currentOrders);
-      setLoadingState(false)
+
+      //mutate array: push completed orders to back of array, in reverse order
+      for (let i = currentOrders.length -1; i >= 0; i--) {
+        if (currentOrders[i].status === 'COMPLETED') {
+          let order = currentOrders[i];
+          currentOrders.splice(i, 1);
+          currentOrders.push(order);
+        }
+      }
+      console.log(currentOrders);
+      if (currentOrders) setApiOrders(currentOrders);
+      setLoadingState(false);
     }
     fetchOrders();
   },[])
-
-  const keyGen = (prefix: string) => {
-    return prefix + Math.floor(Math.random() * 1000);
-  }
 
   const setCompleted = async (id: number) => {
     let newOrders = null;

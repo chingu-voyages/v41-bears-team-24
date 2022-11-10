@@ -17,11 +17,11 @@ const kitchenCards = ({ filterTab, apiOrders, setCompleted }:IkitchenCards) => {
                 return (
                   <div className="w-full">
                     <div className="m-1 p-2 bg-gray-200 rounded-lg drop-shadow-xl">
-                      <div className="w-12/12 h-8 bg-orange-400 text-center text-lg rounded-lg">Order# <span className="font-bold"> {order.id}</span></div>
-                      { order.OrderItem.map((item:any) => <p className="border-b-2 border-solid border-gray-300 my-1">
-                                                    <span className='font-semibold'>{item.menuItem.name} </span>
+                      <div className="w-12/12 h-8 bg-orange-400 text-center text-lg rounded-lg">#{order.id} <span className="font-bold"> {order.customerName}</span></div>
+                      { order.OrderItem.map((item:any) => <div className="border-b-2 border-solid border-gray-300 my-1">
+                                                    <span className='font-semibold'>{item.quantity} {item.menuItem.name} </span>
                                                     {item.modifications && <p>-{item.modifications}</p>}
-                                                  </p>) }
+                                                  </div>) }
                       {/* <p className='font-bold'>Total: <span> ${order.OrderItem.reduce((acc: number, item: any) => acc + parseFloat(item.menuItem.price) , 0).toFixed(2)}</span></p> */}
                       { order.status === "UPNEXT" ?
                         <div onClick={ () => {setCompleted(order.id)} } 
