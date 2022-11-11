@@ -22,7 +22,7 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
 
   const postItemDelete = async () => {
     try {
-      //const res = await deleteMenuItem(deleteItem.id);
+      const res = await deleteMenuItem(deleteItem.id);
 
       //update locally
       const newItems = menuItems.filter((item) => {
