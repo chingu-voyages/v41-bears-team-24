@@ -15,7 +15,7 @@ const EditMenuItemCard = ({name, price, click, imageUrl, menuItemId}: MenuItemCa
                 <div className="w-54 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl overflow-clip"><img src={imageUrl} alt="food"/></div>
                 <span className='text-lg font-bold '>{truncateString(name)}</span>
                 <p className='py-4'> ${String(price)}</p>
-                <span onClick={() =>{click(menuItemId)}}
+                <span onClick={() =>{click(menuItemId, name)}}
                     className="absolute bottom-1 right-1 px-3 py-2 text-center text-gray-100 bg-gray-500  cursor-pointer hover:bg-gray-600 rounded-2xl hover:from-yellow-500 hover:to-orange-600 cursor-pointer">
                     Delete Item
                 </span>

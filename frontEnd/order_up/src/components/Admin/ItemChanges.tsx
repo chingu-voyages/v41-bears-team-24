@@ -8,23 +8,31 @@ interface ItemFormData {name: string, price: number, description: string, catego
 
 const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setShowModal, closeModal}: ItemChangesProps) => {
   const emptyForm = { name: '', price: 0, description: '', category: '', image: ''};
-  const [deleteItemId, setDeleteItemId] = useState(-1);
+  const [deleteItem, setDeleteItem] = useState({id: -1, name: ''});
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const menuItemAdd = (data: ItemFormData): void => {
 		setShowModal('menu-item');
 	}
 
-  const menuItemDelete = (id: number) => {
-    setDeleteItemId(id);
+  const setMenuItemDelete = (id: number, name: string) => {
+    setDeleteItem({id: id, name: name});
     setShowModal('menu-item-delete');
   }
 
   const postItemDelete = async () => {
     try {
-      const res = await deleteMenuItem(deleteItemId);
+      //const res = await deleteMenuItem(deleteItem.id);
+
+      //update locally
+      const newItems = menuItems.filter((item) => {
+        return (item.id !== deleteItem.id);
+      })
+      console.log(newItems)
+      setMenuItems(newItems);
+
       console.log("Deleted");
-      console.log(res);
+      //console.log(res);
     } catch (err) {
       console.log(err);
     }
@@ -41,13 +49,12 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
       <p className="text-center text-3xl">Add or Delete a menu item:</p>
       {showModal === "menu-item" ?
        <ItemForm menuCategories={menuCategories}
-                //  itemFormData={itemFormData}
                  closeModal={closeModal}/>
       : showModal === "menu-item-delete" ?
       <>
-        <form className="flex justify-around z-10 mx-auto my-1 w-full px-2 py-4 bg-gray-300 rounded-lg">
+        <form className="flex justify-around z-10 mx-auto my-1 w-4/12 px-2 py-4 bg-gray-200 rounded-lg">
           <fieldset>
-          <legend className='text-center mb-4'>Delete ${deleteItemId}?</legend>
+          <legend className='text-center mb-4'>Delete item#{deleteItem.id}: {deleteItem.name}?</legend>
           <span onClick={postItemDelete} className="px-6 py-1 ml-2 bg-green-400 text-white rounded cursor-pointer hover:bg-green-600">
             Confirm
           </span>
@@ -69,7 +76,7 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
             {menuItems.filter((item) => strIncludes(item.name, searchQuery))
                       .filter((item, index) => index < 4)
               .map((item, index) => {
-                return <ItemCard key={item.name + index} name={item.name} price={item.price} menuItemId={item.id} click={menuItemDelete} imageUrl={item.imageUrl}/>
+                return <ItemCard key={item.name + index} name={item.name} price={item.price} menuItemId={item.id} click={setMenuItemDelete} imageUrl={item.imageUrl}/>
               })}
             <div className="relative w-64 h-70 m-2 bg-gray-100 pb-1 rounded-2xl drop-shadow-xl cursor-pointer " onClick={() => menuItemAdd(emptyForm)}>
               <div className="w-52 h-36 mt-2 mx-auto bg-blue-500 hover:bg-blue-600 rounded-2xl">
