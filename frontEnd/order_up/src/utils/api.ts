@@ -194,6 +194,18 @@ export async function editMenuCategory(id: Number, categoryName: String, signal?
     return menuCategoryReturned.data;
 }
 
+export async function deleteMenuItem(id: Number, signal?: AbortSignal) {
+    const url = new URL(`${API_BASE_URL}/api/menuItem/${id}`);
+    const options = {
+        method: "DELETE",
+        headers,
+        body: JSON.stringify({}),
+        signal,
+    };
+    const menuItemReturned = await fetchJson(url, options);
+    return menuItemReturned.data;
+}
+
 // TODO: Remove this.
 // These lines are for development purpose, so you can call the functions
 // from your browser's console

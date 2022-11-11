@@ -25,7 +25,7 @@ const CategoryChanges = ({ showModal, setShowModal, closeModal, menuCategories, 
               {menuCategories.map((cat, index) => {
                 return <CategoryTab key={cat.name + index} category={cat.name} click={categoryTabClick} id={cat.id}/>
               })}
-              <CategoryTab category={"Add New"} click={categoryTabClick} id={-1}/>
+              {/* <CategoryTab category={"Add New"} click={categoryTabClick} id={-1}/> */}
             </ul>
           }
         </div>

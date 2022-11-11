@@ -30,8 +30,6 @@ const Admin = ({menuCategories, setMenuCategories, menuItems, setMenuItems}: Adm
                         setShowModal={setShowModal}
                         closeModal={closeModal}/>
         <div className="w-9/12 mx-auto border-b-2 border-solid border-gray-300 my-8"></div>
-  {/* user changes*/}
-          <p className="text-center text-3xl">User Changes:</p>
         </div>
       </div>
     )
