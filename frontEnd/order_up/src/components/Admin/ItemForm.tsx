@@ -89,6 +89,7 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
     // Change divs to label element
 return (
       <form className="z-10 mx-auto w-6/12 p-4 bg-gray-200 rounded-lg">
+      <legend>New Menu Item:</legend>
       <fieldset>
         <label className="w-2/12 m-2 inline-block text-right">Name:</label>
         <input className="w-8/12 rounded-lg px-2" id="name" type="text" name='name' value={itemFormData.name} onChange={updateForm}/><br/>
