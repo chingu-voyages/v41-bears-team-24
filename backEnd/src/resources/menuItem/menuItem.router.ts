@@ -13,7 +13,7 @@ router
     .all(methodNotAllowed);
 
 router
-    .route("/:menuitemid")
+    .route("/:menuItemId")
     .get(controller.read)
     .put(controller.update)
     .delete(controller.delete)
