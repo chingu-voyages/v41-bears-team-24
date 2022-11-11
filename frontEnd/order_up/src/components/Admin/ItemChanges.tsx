@@ -30,7 +30,7 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
       })
       console.log(newItems)
       setMenuItems(newItems);
-
+      console.log(res);
       console.log("Deleted");
       //console.log(res);
     } catch (err) {
