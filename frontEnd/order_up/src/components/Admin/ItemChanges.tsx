@@ -49,7 +49,9 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
       <p className="text-center text-3xl">Add or Delete a menu item:</p>
       {showModal === "menu-item" ?
        <ItemForm menuCategories={menuCategories}
-                 closeModal={closeModal}/>
+                 closeModal={closeModal}
+                 menuItems={menuItems}
+                 setMenuItems={setMenuItems}/>
       : showModal === "menu-item-delete" ?
       <>
         <form className="flex justify-around z-10 mx-auto my-1 w-4/12 px-2 py-4 bg-gray-200 rounded-lg">

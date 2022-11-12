@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 
 interface ItemFormProps {
   menuCategories: any[], 
-  // itemFormData: any, 
+  menuItems: any[],
+  setMenuItems: Function, 
   closeModal: Function
 };
 
-const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
+const ItemForm = ({menuCategories, closeModal, menuItems, setMenuItems}: ItemFormProps) => {
   const [itemFormData, setItemFormData] = useState({
     name: '',
     price: '',
@@ -75,6 +76,7 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
       })
 
       const response = await newItem.json()
+      setMenuItems(menuItems.concat(response));
 
     } catch (error) {
       console.error(error)
