@@ -71,7 +71,7 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
         <div>
           <div className='flex justify-center'>
             <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
-                className="m-2 w-96 px-3 py-2 text-gray-600 rounded-full shadow-gray-400 shadow-xl "/>
+                className="m-2 w-96 px-3 py-2 placeholder-gray-400 rounded-full shadow-gray-400 shadow-xl outline-none"/>
           </div>
 
           <div className="flex flex-wrap mt-3">
@@ -80,11 +80,15 @@ const ItemChanges = ({menuItems, setMenuItems, menuCategories, showModal, setSho
               .map((item, index) => {
                 return <ItemCard key={item.name + index} name={item.name} price={item.price} menuItemId={item.id} click={setMenuItemDelete} imageUrl={item.imageUrl}/>
               })}
-            <div className="relative w-64 h-70 m-2 bg-gray-100 pb-1 rounded-2xl drop-shadow-xl cursor-pointer " onClick={() => menuItemAdd(emptyForm)}>
-              <div className="w-52 h-36 mt-2 mx-auto bg-blue-500 hover:bg-blue-600 rounded-2xl">
-                <div  className="p-8 text-center text-white text-bold text-4xl ">Add New</div>
+
+            <div className="relative w-64 h-70 m-2 pb-1 rounded-2xl my-auto">
+              <div className='bg-blue-400 rounded-lg text-xl h-18 m-2 text-slate-100 cursor-pointer hover:bg-blue-600' onClick={() => menuItemAdd(emptyForm)}>
+                <div className='text-center p-2'>
+                  Add New <br></br> Menu Item
+                </div>
               </div>
             </div>
+
           </div>
         </div>
       </div>

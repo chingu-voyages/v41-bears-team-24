@@ -19,14 +19,14 @@ const Menu = ({ addItemToOrder, menuCategories, menuItems}: MenuProps) => {
   }
  
   return (
-    <div className="inline-block h-full w-full">
+    <div className="inline-block h-full w-full pb-10">
       <div className='flex justify-center'>
         {!menuCategories.length && !menuItems.length ? <Loading /> 
         : <div className='mt-6'>
             <div className='flex justify-center'>
               {/* search bar */}
               <input type="text" placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery((e.target as HTMLInputElement).value)}
-                    className="m-2 w-96 px-3 py-3 text-black placeholder-black bg-slate-50 rounded-full shadow-lg shadow-gray-400 border-transparent focus:border-transparent focus:ring-0"/>
+                    className="m-2 w-96 px-3 py-3 text-black placeholder-gray-400 bg-slate-50 rounded-full shadow-lg shadow-gray-400 outline-none"/>
             </div>
 
               {/* menu categories */}
