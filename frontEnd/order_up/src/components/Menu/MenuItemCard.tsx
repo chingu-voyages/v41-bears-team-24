@@ -11,7 +11,7 @@ const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, men
 
   const truncateString = (name: String) => {
     if (name.length > 25) {
-      return `${name.slice(0,20)}...`
+      return `${name.slice(0,23)}...`
     } else return name
   }
   // shadow-md shadow-blue-200
