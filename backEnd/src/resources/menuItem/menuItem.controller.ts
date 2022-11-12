@@ -112,7 +112,7 @@ async function remove(req: Request, res: Response) {
 }
 
 export default {
-    create: [asyncHandler(validEmployee(["ADMIN"])), asyncHandler(create)],
+    create: [asyncHandler(create)],
     list: [/*asyncHandler(validEmployee(["MANAGER","ADMIN"])),*/ asyncHandler(list)],
     read: [asyncHandler(menuItemExists), asyncHandler(read)],
     update: [asyncHandler(validEmployee(["ADMIN"])), asyncHandler(menuItemExists), asyncHandler(update)],
