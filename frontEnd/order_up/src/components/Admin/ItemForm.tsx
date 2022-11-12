@@ -76,7 +76,8 @@ const ItemForm = ({menuCategories, closeModal, menuItems, setMenuItems}: ItemFor
       })
 
       const response = await newItem.json()
-      setMenuItems(menuItems.concat(response));
+      console.log(response);
+      //setMenuItems(menuItems.concat(response));
 
     } catch (error) {
       console.error(error)
