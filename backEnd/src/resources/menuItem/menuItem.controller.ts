@@ -85,6 +85,8 @@ async function create(req: Request, res: Response) {
         category
     } = req.body;
 
+    console.log(`Creating item with category ${category}`);
+    
     const newItem = await prisma.menuItem.create({
         data: {
             name: String(name),
