@@ -13,7 +13,7 @@ const ItemForm = ({menuCategories, closeModal}: ItemFormProps) => {
     ingredients: '',
     description: '',
     calorieCount: '',
-    category: '',
+    category: menuCategories[0].name,
     image: ''
   })
   const [s3Url, setS3Url] = useState('')
