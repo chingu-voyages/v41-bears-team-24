@@ -25,13 +25,29 @@ async function read(req: Request, res: Response) {
 }
 
 async function list(req: Request, res: Response) {
+    let {
+        page,
+        amount
+    } = req.body;
+    if(!page){
+        page = 0;
+    }
+    if(!amount){
+        amount = 30;
+    }
+    const skip = amount * page;
     const data = await prisma.order.findMany({
+        skip,
+        take: amount,
         include: {
             OrderItem: {
                 include: {
                     menuItem: true
                 }
             }
+        },
+        orderBy:{
+            id: "desc"
         }
     });
     return res.status(200).json({ data: data });
