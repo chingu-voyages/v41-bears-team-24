@@ -25,6 +25,7 @@ model MenuItem {
   description  String
   calorieCount Int
   imageUrl     String
+  deleted      Boolean @default(false)
 
   categoryId Int
   category   MenuCategory @relation(fields: [categoryId], references: [id])
