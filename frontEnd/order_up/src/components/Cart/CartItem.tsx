@@ -25,6 +25,12 @@ const CartItem = ({setItemDetails, deleteItem, id, name, price, modification, qu
     if (e.key === 'Enter') e.target.blur();
   }
 
+  const truncateString = (name: String) => {
+    if (name.length > 25) {
+      return `${name.slice(0,20)}...`
+    } else return name
+  }
+
 	return (
     <div className="border-b-2 border-solid border-grey-200 my-1">
       <div className="inline-block cursor-pointer text-red-500" onClick={() => deleteItem(id)}><ImCross/></div>
@@ -35,11 +41,11 @@ const CartItem = ({setItemDetails, deleteItem, id, name, price, modification, qu
                onKeyPress={checkEnter}
                onBlur={saveChanges}
                onChange={quantityInputChange}/>
-        <p className="my-2 inline-block">{name}</p>
+        <p className="my-2 inline-block mr-3">{truncateString(name)}</p>
         <p className="inline-block">${price}</p>
       </div>
   
-      { (showInput || modificationInput) && <input className="mb-1 border-2 border-solid border-grey-300 bg-blue-100" type="text" value={modificationInput}
+      { (showInput || modificationInput) && <input className="my-1 px-1 rounded-lg bg-blue-100" type="text" value={modificationInput}
                                             onChange={modificationInputChange}
                                             onBlur={saveChanges}
                                             onKeyPress={checkEnter}/>}

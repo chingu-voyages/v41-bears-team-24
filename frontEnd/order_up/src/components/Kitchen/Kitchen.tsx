@@ -56,7 +56,7 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
     if (newOrders) setApiOrders(newOrders);
   }
   return (
-    <>
+    <div className='pb-10'>
       <h3 className="text-5xl text-center my-6">Orders</h3>
       <div className="flex justify-center">
         <div onClick={() => {setFilterTab('Active')}}
@@ -107,7 +107,7 @@ const Kitchen = ({ activeOrders, setActiveOrders }:KitchenProps) => {
 */
 }
       </div>
-    </>
+    </div>
   )
 }
 

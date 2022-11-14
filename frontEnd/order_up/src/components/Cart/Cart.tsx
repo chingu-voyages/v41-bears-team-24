@@ -78,16 +78,16 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
   }
 
   return (
-    <div className="relative">
-      <p>Order Cart</p>
+    <div className="relative shadow-md h-full p-2 pb-10">
+      <p className='text-center text-xl mb-3'>Order Cart</p>
       <p>Customer Name:</p>
       <input type="text"  value={customerName} placeholder={'Customer #' + order.id}
-             className="p-1 rounded-lg bg-blue-100"
+             className="p-1 rounded-lg bg-blue-100 mb-4"
              onChange={(e) => setCustomerName(e.target.value)}/>
 
-        <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-400 text-white rounded-xl hover:bg-red-600 cursor-pointer">
+        {/* <div onClick={cancelOrder} className="absolute top-1 right-1 p-2 bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">
           Cancel
-        </div>
+        </div> */}
       { order.items.map((item, index) => <CartItem key={item.id}
                                                    setItemDetails={setItemDetails}
                                                    deleteItem={deleteItem}
@@ -96,9 +96,15 @@ const Cart = ({order, setOrder, addNewOrder, resetOrder}: CartProps) => {
                                                    price={item.price}
                                                    modification={item.modification}
                                                    quantity={item.quantity}/> )}
-      <p className='font-bold'>Total: <span> ${calculateTotal()}</span></p>
-      <div  onClick={confirmOrder}
-            className="m-2 text-center px-1 py-2 text-white text-md bg-green-500 rounded-xl hover:bg-green-600 cursor-pointer" >Confirm
+      <p className='font-bold text-xl'>Total: <span> ${calculateTotal()}</span></p>
+
+      <div className='flex'>
+        <div  onClick={confirmOrder}
+              className="w-full m-2 text-center px-1 py-2 text-white text-md bg-green-500 rounded-xl hover:bg-green-600 cursor-pointer" >Confirm
+        </div>
+        <div onClick={cancelOrder} className="m-2 p-2 text-center bg-red-500 text-white rounded-xl hover:bg-red-700 cursor-pointer">
+          Cancel
+        </div>
       </div>
     </div>
   )

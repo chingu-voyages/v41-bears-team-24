@@ -16,7 +16,7 @@ const EditMenuItemCard = ({name, price, click, imageUrl, menuItemId}: MenuItemCa
                 <span className='text-lg font-bold '>{truncateString(name)}</span>
                 <p className='py-4'> ${String(price)}</p>
                 <span onClick={() =>{click(menuItemId, name)}}
-                    className="absolute bottom-1 right-1 px-3 py-2 text-center text-gray-100 bg-gray-500  cursor-pointer hover:bg-gray-600 rounded-2xl hover:from-yellow-500 hover:to-orange-600 cursor-pointer">
+                    className="absolute bottom-2 right-2 px-3 py-2 text-center text-gray-100 bg-red-500  cursor-pointer hover:bg-red-700 rounded-2xl hover:from-yellow-500 hover:to-orange-600">
                     Delete Item
                 </span>
             </div>

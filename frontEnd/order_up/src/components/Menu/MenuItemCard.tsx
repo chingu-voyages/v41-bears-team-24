@@ -28,7 +28,7 @@ const MenuItemCard = ({name, price, click, description, ingredients, imgUrl, men
 
       <div className='p-2 '>
         <div className="w-54 h-36 mt-2 mx-auto bg-gray-600 rounded-2xl overflow-clip"><img src={imgUrl} alt="food"/></div>
-        <span className='text-lg font-bold '>{truncateString(name)}</span>
+        <span className='text-lg font-bold'>{truncateString(name)}</span>
         <p className='py-4'> ${String(price)}</p>
 
         <div className='flex justify-between w-full'>
