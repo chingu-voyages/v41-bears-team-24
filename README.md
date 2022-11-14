@@ -1,14 +1,34 @@
-# voyage-tasks
+# Order Up!
 
-Your project's `readme` is as important to success as your code. For 
-this reason you should put as much care into its creation and maintenance
-as you would any other component of the application.
+**[App Here](https://v41-bears-team-24-production.up.railway.app/)**
 
-If you are unsure of what should go into the `readme` let this article,
-written by an experienced Chingu, be your starting point - 
-[Keys to a well written README](https://tinyurl.com/yk3wubft).
+An easy and portable Point of Sales system to improve restaurant productivity by facilitating the communication between the front of house and back of house.  Designed for use on a standard-sized screen or tablet.
 
-And before we go there's "one more thing"! Once you decide what to include
-in your `readme` feel free to replace the text we've provided here.
+## Features:
 
-> Own it & Make it your Own!
+**Interactive Menu**
+- Search for items with category tabs and search bar
+- Click Description for more information about an item
+- Add to order when you've decided what you want
+
+**Order Cart Display**
+- Change the desired quantity of an item
+- Edit an item to make a specific request
+
+**Kitchen Order Queue Display**
+- Switch view between active and completed orders
+- Click complete to mark order as finished
+
+**Admin page with menu customization features**
+- Change the name of a menu category
+- Add a new item to the menu or delete one
+
+## Developed with:
+
+- React
+- Tailwind
+- Typescript
+- Node Express
+- Prisma
+- PostgreSQL
+- AWS-S3
