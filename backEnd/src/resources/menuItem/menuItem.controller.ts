@@ -1,17 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import asyncHandler from '../errors/asyncHandler';
-import prisma from '../client';
+import asyncHandler from '../../errors/asyncHandler';
+import prisma from '../../prismaClient';
+import { validEmployee } from '../../auth/auth'
+
 
 async function list(req: Request, res: Response) {
-    const data = await prisma.menuItem.findMany();
-    res.status(200).json({ data });
+    const data = await prisma.menuItem.findMany(
+        {
+            orderBy: {
+                id: "asc"
+            },
+            where: {
+                deleted: false
+            }
+        }
+    );
+    return res.status(200).json({ data: data });
 }
 
 async function menuItemExists(req: Request, res: Response, next: NextFunction) {
     const { menuItemId } = res.locals.menuItemId ? res.locals : req.params;
-    const menuItem = await prisma.menuItem.findUnique({
+    const menuItem = await prisma.menuItem.findFirst({
         where: {
-            id: Number(menuItemId)
+            id: Number(menuItemId),
+            deleted: false
         }
     });
 
@@ -28,17 +40,6 @@ async function menuItemExists(req: Request, res: Response, next: NextFunction) {
 async function read(req: Request, res: Response) {
     res.status(200).json({ data: res.locals.menuItem });
 }
-
-// model MenuItem {
-//     id           Int     @id @default(autoincrement())
-//     name         String
-//     price        Decimal
-//     ingredients  String
-//     description  String
-//     calorieCount Int
-//     imageUrl     String
-
-//     categoryId Int
 
 async function update(req: Request, res: Response) {
     const {
@@ -72,16 +73,20 @@ async function update(req: Request, res: Response) {
 
 async function create(req: Request, res: Response) {
     //TODO: Data Validations
+
+
     const {
         name,
         price,
         ingredients,
         description,
         calorieCount,
-        imageUrl,
-        categoryId
+        image,
+        category
     } = req.body;
 
+    console.log(`Creating item with category ${category}`);
+    
     const newItem = await prisma.menuItem.create({
         data: {
             name: String(name),
@@ -90,8 +95,8 @@ async function create(req: Request, res: Response) {
             ingredients: String(ingredients),
             description: String(description),
             calorieCount: Number(calorieCount),
-            imageUrl: String(imageUrl),
-            category: { connect: { id: categoryId } },
+            imageUrl: String(image),
+            category: { connect: { name: category } },
         },
     });
 
@@ -99,16 +104,19 @@ async function create(req: Request, res: Response) {
 }
 
 async function remove(req: Request, res: Response) {
-    const menuItem = await prisma.menuItem.delete({
-        where: { id: res.locals.menuItem.id }
+    const menuItem = await prisma.menuItem.update({
+        where: { id : res.locals.menuItem.id },
+        data: {
+            deleted : true
+        },
     });
     res.status(200).json({ data: menuItem });
 }
 
 export default {
     create: [asyncHandler(create)],
-    list: asyncHandler(list),
+    list: [/*asyncHandler(validEmployee(["MANAGER","ADMIN"])),*/ asyncHandler(list)],
     read: [asyncHandler(menuItemExists), asyncHandler(read)],
-    update: [asyncHandler(menuItemExists), asyncHandler(update)],
-    delete: [asyncHandler(menuItemExists), asyncHandler(remove)]
+    update: [asyncHandler(validEmployee(["ADMIN"])), asyncHandler(menuItemExists), asyncHandler(update)],
+    delete: [asyncHandler(validEmployee(["ADMIN"])), asyncHandler(menuItemExists), asyncHandler(remove)]
 };

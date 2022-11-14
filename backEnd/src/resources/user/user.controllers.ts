@@ -1,13 +1,34 @@
-import prisma from "../../client"
+import prisma from "../../prismaClient"
+import { Request, Response} from 'express';
 
-export const updateUser = async (req: any, res: any) => {
-    const { username, firstName, lastName, role } = req.body.username
+export const getUser = async (req: Request, res: Response) => {
+    // check for valid JWT
+    const { id } = req.body
+
+    let user 
+
+    try {
+        user = await prisma.user.findUnique({
+            where: {
+                id: id
+            }
+        })
+
+        res.status(200).json({ data: user })
+    } catch (e) {
+        res.status(404).json({ error: 'User does not exist'})
+    }
+}
+
+
+export const updateUser = async (req: Request, res: Response) => {
+    const { id, firstName, lastName, role } = req.body
 
     let user
     
     try {
         user = await prisma.user.update({
-            where: { username: username },
+            where: { id: id },
             data: {
                 firstName: firstName,
                 lastName: lastName,
