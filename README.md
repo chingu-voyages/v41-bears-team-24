@@ -4,6 +4,13 @@
 
 An easy to use and portable Point of Sales system to improve restaurant productivity by facilitating the communication between the front of house and back of house.  Designed for use on a standard-sized screen or tablet.
 
+![Screenshot](https://orderupbucket.s3.us-west-1.amazonaws.com/orderup-menu-page.png)
+
+![Screenshot](https://orderupbucket.s3.us-west-1.amazonaws.com/orderup-orders-page.png)
+
+![Screenshot](https://orderupbucket.s3.us-west-1.amazonaws.com/orderup-admin-page.png)
+
+
 ## Features:
 
 **Interactive Menu**
