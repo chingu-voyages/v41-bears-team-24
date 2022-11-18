@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Kitchen from "./components/Kitchen/Kitchen";
 import Admin from "./components/Admin/Admin";
+import MenuItemModal from "./components/Menu/menuItemModal";
 
 //const EmptyUser = {createdAt: '', firstName: '', lastName: '', id: 0, password: '', role: '', username: ''};
 
@@ -47,7 +48,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="">
       <Navbar loggedIn={loggedIn}/>
       <Routes>
         <Route path="/" element={<Landing setLoggedIn={setLoggedIn} setMenuCategories={setMenuCategories} setMenuItems={setMenuItems}/>}/>
