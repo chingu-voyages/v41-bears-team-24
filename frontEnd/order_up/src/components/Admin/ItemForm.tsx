@@ -21,7 +21,7 @@ const ItemForm = ({menuCategories, closeModal, menuItems, setMenuItems}: ItemFor
 
 // FIX TS ERROR, image state is null so it can never have property type on it.
   useEffect(() => {
-      fetch('https://v41-bears-team-24-production.up.railway.app/api/s3url', {
+      fetch(`${process.env.REACT_APP_API_BASE_URL}/api/s3url`, {
         method: 'POST',
         headers: { "Content-Type": "application/json"},
         // @ts-ignore
