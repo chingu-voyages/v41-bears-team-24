@@ -58,7 +58,7 @@ const ItemForm = ({menuCategories, closeModal, menuItems, setMenuItems}: ItemFor
     const imageUrl = s3Url.split('?')[0]
 
     try {
-      const newItem = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menuitem', {
+      const newItem = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/menuitem`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
