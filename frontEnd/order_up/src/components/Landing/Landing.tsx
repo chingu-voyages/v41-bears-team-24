@@ -27,8 +27,8 @@ const Landing = ({ setLoggedIn, setMenuCategories, setMenuItems }: LandingProps)
   }
 
   const fetchMenuData = async () => {
-    const items = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menuitem');
-    const categories = await fetch('https://v41-bears-team-24-production.up.railway.app/api/menucategory');
+    const items = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/menuitem`);
+    const categories = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/menucategory`);
     if (items.ok) {
       const data = await items.json();
       setMenuItems(data.data);
