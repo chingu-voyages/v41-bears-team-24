@@ -1,6 +1,6 @@
 # Order Up!
 
-**[LIVE LINK](https://v41-bears-team-24-production.up.railway.app/)**
+**[LIVE LINK](https://v41-bears-team-24-production-fab1.up.railway.app/)**
 
 An easy to use and portable Point of Sales system to improve restaurant productivity by facilitating the communication between the front of house and back of house.  Designed for use on a standard-sized screen or tablet.
 
